@@ -38,8 +38,8 @@
             inImportanceLevel=new NumericUpDown();
             inItemDescription=new RichTextBox();
             btnCreateTodo=new Button();
-            tabControl1=new TabControl();
-            tabPage1=new TabPage();
+            tcCreateEvents=new TabControl();
+            tpPersonal=new TabPage();
             tabPage2=new TabPage();
             tabPage3=new TabPage();
             btnTAdd=new Button();
@@ -48,7 +48,7 @@
             btnCancelCreateTodo=new Button();
             btnUpdateTodo=new Button();
             ((System.ComponentModel.ISupportInitialize)inImportanceLevel).BeginInit();
-            tabControl1.SuspendLayout();
+            tcCreateEvents.SuspendLayout();
             SuspendLayout();
             // 
             // monthCalendar1
@@ -147,31 +147,31 @@
             btnCreateTodo.Name="btnCreateTodo";
             btnCreateTodo.Size=new Size(176, 23);
             btnCreateTodo.TabIndex=10;
-            btnCreateTodo.Text="Create";
+            btnCreateTodo.Text="&Create";
             btnCreateTodo.UseVisualStyleBackColor=true;
             btnCreateTodo.Visible=false;
             btnCreateTodo.Click+=button1_Click;
             // 
-            // tabControl1
+            // tcCreateEvents
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Controls.Add(tabPage3);
-            tabControl1.Location=new Point(251, 301);
-            tabControl1.Name="tabControl1";
-            tabControl1.SelectedIndex=0;
-            tabControl1.Size=new Size(232, 216);
-            tabControl1.TabIndex=10;
+            tcCreateEvents.Controls.Add(tpPersonal);
+            tcCreateEvents.Controls.Add(tabPage2);
+            tcCreateEvents.Controls.Add(tabPage3);
+            tcCreateEvents.Location=new Point(251, 301);
+            tcCreateEvents.Name="tcCreateEvents";
+            tcCreateEvents.SelectedIndex=0;
+            tcCreateEvents.Size=new Size(232, 216);
+            tcCreateEvents.TabIndex=10;
             // 
-            // tabPage1
+            // tpPersonal
             // 
-            tabPage1.Location=new Point(4, 24);
-            tabPage1.Name="tabPage1";
-            tabPage1.Padding=new Padding(3);
-            tabPage1.Size=new Size(224, 188);
-            tabPage1.TabIndex=0;
-            tabPage1.Text="tabPage1";
-            tabPage1.UseVisualStyleBackColor=true;
+            tpPersonal.Location=new Point(4, 24);
+            tpPersonal.Name="tpPersonal";
+            tpPersonal.Padding=new Padding(3);
+            tpPersonal.Size=new Size(224, 188);
+            tpPersonal.TabIndex=0;
+            tpPersonal.Text="Personal";
+            tpPersonal.UseVisualStyleBackColor=true;
             // 
             // tabPage2
             // 
@@ -257,7 +257,7 @@
             Controls.Add(btnTFinish);
             Controls.Add(btnTEdit);
             Controls.Add(btnTAdd);
-            Controls.Add(tabControl1);
+            Controls.Add(tcCreateEvents);
             Controls.Add(btnCreateTodo);
             Controls.Add(inItemDescription);
             Controls.Add(inImportanceLevel);
@@ -271,7 +271,7 @@
             Name="Form1";
             Text="ToDo";
             ((System.ComponentModel.ISupportInitialize)inImportanceLevel).EndInit();
-            tabControl1.ResumeLayout(false);
+            tcCreateEvents.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -288,8 +288,8 @@
         private NumericUpDown inImportanceLevel;
         private RichTextBox inItemDescription;
         private Button btnCreateTodo;
-        private TabControl tabControl1;
-        private TabPage tabPage1;
+        private TabControl tcCreateEvents;
+        private TabPage tpPersonal;
         private TabPage tabPage2;
         private TabPage tabPage3;
         private Button btnTAdd;
