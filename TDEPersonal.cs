@@ -1,4 +1,6 @@
-﻿namespace TODO
+﻿using System.Xml.Linq;
+
+namespace TODO
 {
     public class TDEPersonal : TDEvent
     {
@@ -11,7 +13,7 @@
             _description = "Personal Event";
         }
 
-        public TDEPersonal(string description) : base() 
+        public TDEPersonal(string description, DateTime start_time, DateTime end_time, string name) : base(start_time, end_time, name) 
         {
             _description=description;
         }

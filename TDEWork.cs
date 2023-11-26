@@ -3,23 +3,21 @@
     public class TDEWork : TDEvent
     {
         //attributes
-        private string _job_name;
-        private double _wage;
+        private string _company;
+        private decimal _wage;
         private bool _paid;
 
         //constructors
         public TDEWork() : base()
         {
-            _job_name = "Work";
+            _company = "UNKNOWN";
             _wage = 0;
-            _paid = false;
         }
 
-        public TDEWork(string job_name, double wage, bool paid) : base()
+        public TDEWork(string company, decimal wage, DateTime start_time, DateTime end_time, string name) : base(start_time, end_time, name)
         {
-            _job_name=job_name;
+            _company=company;
             _wage=wage;
-            _paid=paid;
         }
 
         //properties

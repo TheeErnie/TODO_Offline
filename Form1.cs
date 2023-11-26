@@ -1,3 +1,4 @@
+using System.Diagnostics.Eventing.Reader;
 using TODO;
 
 namespace projoffline
@@ -6,10 +7,15 @@ namespace projoffline
     {
 
         private List<TDTodo> todoList = new List<TDTodo>(); //listing of todo items
+        private List<IEvent> eventList = new List<IEvent>();//list of all events in calendar
         private int tdindex; // index to be updated when todoList items are being updated
         public Form1()
         {
             InitializeComponent();
+
+            //set date formats for events creation
+            inPEStartTimeDate.Format = inPEEndTimeDate.Format = inWStartTimeDate.Format = inWEndTimeDate.Format = inSEStartTimeDate.Format = inSEEndTimeDate.Format = DateTimePickerFormat.Custom;
+            inPEStartTimeDate.CustomFormat = inPEEndTimeDate.CustomFormat = inWStartTimeDate.CustomFormat = inWEndTimeDate.CustomFormat = inSEStartTimeDate.CustomFormat = inSEEndTimeDate.CustomFormat = "h:mm tt 'on' MMM dd";
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -173,9 +179,6 @@ namespace projoffline
             }
         }
 
-
-        #endregion
-
         private void lbTODOlisting_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lbTODOlisting.SelectedIndex != -1)
@@ -185,5 +188,171 @@ namespace projoffline
             }
         }
 
+        #endregion
+
+        #region Events
+        #region Cleanup around crud
+        private void updateEL()
+        {
+            eventList.Sort((e1, e2) => e1.StartTime.CompareTo(e2.StartTime));
+            lbSelectedDayEvents.Items.Clear();
+            List<IEvent> eventsToday = eventList.Where(e => e.StartTime.Date.Day == DateTime.Today.Day).ToList();
+            foreach (IEvent e in eventsToday)
+            {
+                string tmpstr = e.StartTime.ToString("hh:mm tt");
+                tmpstr += " - " + e.Name;
+                lbSelectedDayEvents.Items.Add(tmpstr);
+            }
+        }
+        private void clearAllEventInputs()
+        {
+            inPEName.Clear();
+            inPEDescription.Clear();
+            inWJobName.Clear();
+            inWCompany.Clear();
+            inWWage.Value = 0;
+            inSEClassName.Clear();
+            inSEClassID.Clear();
+            inSEOnline.Checked = inSEMonday.Checked = inSETuesday.Checked = inSEWednesday.Checked = inSEThursday.Checked = inSEFriday.Checked = false;
+            inPEStartTimeDate.Value = inPEEndTimeDate.Value = inWEndTimeDate.Value = inWStartTimeDate.Value = inSEStartTimeDate.Value = inSEEndTimeDate.Value = DateTime.Now;
+        }
+        private void cancelEventInput()
+        {
+            clearAllEventInputs();
+            tcCreateEvents.Hide();
+            showECtrlPanel();
+        }
+
+
+        #region Show-Hide_Displays
+        private void showECtrlPanel()
+        {
+            btnEAdd.Show();
+            btnEEdit.Show();
+            btnEDelete.Show();
+        }
+        private void hideECtrlPanel()
+        {
+            btnEAdd.Hide();
+            btnEEdit.Hide();
+            btnEDelete.Hide();
+        }
+        #endregion
+        #endregion
+
+
+        #region Event Control Panel
+        private void btnEAdd_Click(object sender, EventArgs e)
+        {
+            hideECtrlPanel();
+            tcCreateEvents.Show();
+        }
+        private void btnEEdit_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btnEDelete_Click(object sender, EventArgs e)
+        {
+            string tmpdel = lbSelectedDayEvents.GetItemText(lbSelectedDayEvents.SelectedItem);
+            IEvent tmpev = eventList.Where(x => x.StartTime.ToString("hh:mm tt").Substring(0, 6) == tmpdel.Substring(0, 6) && x.StartTime.Date.Day == DateTime.Now.Day).FirstOrDefault();
+            //TODO :::::::
+            //UPDATE THIS SO THAT IT IS NOT JUST USING THE CURRENT DATE BUT THE ONE SELECTED BY THE USERS
+            //!!!!!!!!!!!!!!!
+            eventList.Remove(tmpev);
+            updateEL();
+            btnEEdit.Enabled = false;
+            btnEDelete.Enabled = false;
+        }
+        private void lbSelectedDayEvents_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(lbSelectedDayEvents.SelectedIndex != -1)
+            {
+                btnEEdit.Enabled = true;
+                btnEDelete.Enabled = true;
+            }
+
+        }
+        #endregion
+
+        #region Personal
+        private void btnPECreate_Click(object sender, EventArgs e)
+        {
+            if (inPEName.Text != string.Empty)
+            {
+                TDEPersonal tmppersonal = new TDEPersonal(inPEDescription.Text, inPEStartTimeDate.Value, inPEEndTimeDate.Value, inPEName.Text);
+                eventList.Add(tmppersonal);
+                updateEL();
+                cancelEventInput();
+            }
+        }
+        private void btnPECancel_Click(object sender, EventArgs e)
+        {
+            cancelEventInput();
+        }
+        #endregion
+        #region Work
+        private void btnWECreate_Click(object sender, EventArgs e)
+        {
+            if (inWJobName.Text != string.Empty)
+            {
+                TDEWork tmpwork = new TDEWork(inWCompany.Text, inWWage.Value, inWStartTimeDate.Value, inWEndTimeDate.Value, inWJobName.Text);
+                eventList.Add(tmpwork);
+                updateEL();
+                cancelEventInput();
+            }
+        }
+        private void btnWECancel_Click(object sender, EventArgs e)
+        {
+            cancelEventInput();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
+        #region School
+        private void btnSECreate_Click(object sender, EventArgs e)
+        {
+            int meetingDays = 0;
+            if (!inSEOnline.Checked)
+            {
+                if (inSEMonday.Checked) { meetingDays += 16; }
+                if (inSETuesday.Checked) { meetingDays += 16; }
+                if (inSEWednesday.Checked) { meetingDays += 16; }
+                if (inSEThursday.Checked) { meetingDays += 16; }
+                if (inSEFriday.Checked) { meetingDays += 16; }
+            }
+            TDESchool tmpschool = new TDESchool(inSEClassID.Text, inSEOnline.Checked, meetingDays, inSEStartTimeDate.Value, inSEEndTimeDate.Value, inSEClassName.Text);
+            eventList.Add(tmpschool);
+            updateEL();
+            cancelEventInput();
+        }
+        private void btnSECancel_Click(object sender, EventArgs e)
+        {
+            cancelEventInput();
+        }
+
+        private void inSEOnline_CheckedChanged(object sender, EventArgs e)
+        {
+            if (inSEOnline.Checked)
+            {
+                inSEMonday.Checked = inSETuesday.Checked = inSEWednesday.Checked = inSEThursday.Checked = inSEFriday.Checked = false;
+                inSEMonday.Enabled = inSETuesday.Enabled = inSEWednesday.Enabled = inSEThursday.Enabled = inSEFriday.Enabled = false;
+            }
+            else
+            {
+                inSEMonday.Enabled = inSETuesday.Enabled = inSEWednesday.Enabled = inSEThursday.Enabled = inSEFriday.Enabled = true;
+            }
+        }
+
+
+
+        #endregion
+
+        #endregion
+
+        //lblPEName
     }
 }
