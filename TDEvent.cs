@@ -37,11 +37,6 @@
         {
             get { return _start_time.ToString("h:mm tt"); }
         }
-        public string EventName
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
 
         //interface
         public DateTime StartTime { 

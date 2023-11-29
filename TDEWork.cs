@@ -5,7 +5,6 @@
         //attributes
         private string _company;
         private decimal _wage;
-        private bool _paid;
 
         //constructors
         public TDEWork() : base()
@@ -21,7 +20,31 @@
         }
 
         //properties
+        public string Company
+        {
+            get { return _company; }
+            set { _company = value; }
+        }
+        public string Description
+        {
+            get { return _company; }
+            set { _company = value; }
+        }
+        public decimal Wage
+        {
+            get { return _wage; }
+            set { _wage = value; }
+        }
+
 
         //methods
+        public decimal GetPay()
+        {
+            return _wage * Math.Round((decimal)(EndTime - StartTime).TotalHours, 2);
+        }
+        public double ShiftLength()
+        {
+            return Math.Round((double)(EndTime - StartTime).TotalHours,2);
+        }
     }
 }

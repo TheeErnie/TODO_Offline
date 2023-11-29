@@ -18,8 +18,13 @@ namespace TODO
             _description=description;
         }
 
-
         //properties
+        public string Description
+        {
+            get { return _description; }
+            set { _description = value; }
+        }
+
 
         //methods
     }

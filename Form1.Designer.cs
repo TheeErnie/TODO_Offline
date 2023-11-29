@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components=new System.ComponentModel.Container();
             monthCalendar1=new MonthCalendar();
             lbTODOlisting=new ListBox();
             lbSelectedDayEvents=new ListBox();
@@ -40,6 +41,7 @@
             btnCreateTodo=new Button();
             tcCreateEvents=new TabControl();
             tpPersonal=new TabPage();
+            btnPEUpdate=new Button();
             btnPECancel=new Button();
             btnPECreate=new Button();
             inPEDescription=new RichTextBox();
@@ -51,6 +53,7 @@
             lblPEStartTime=new Label();
             lblPEName=new Label();
             tpWork=new TabPage();
+            btnWEUpdate=new Button();
             btnWECancel=new Button();
             btnWECreate=new Button();
             inWEndTimeDate=new DateTimePicker();
@@ -64,6 +67,7 @@
             lblWWage=new Label();
             lblWName=new Label();
             tpSchool=new TabPage();
+            btnSEUpdate=new Button();
             inSEFriday=new CheckBox();
             inSEThursday=new CheckBox();
             inSEWednesday=new CheckBox();
@@ -89,6 +93,11 @@
             btnEDelete=new Button();
             btnEEdit=new Button();
             btnEAdd=new Button();
+            timer1=new System.Windows.Forms.Timer(components);
+            lblMainLabel=new Label();
+            lblTime=new Label();
+            pbTodoProgress=new ProgressBar();
+            lblTodoPB=new Label();
             ((System.ComponentModel.ISupportInitialize)inImportanceLevel).BeginInit();
             tcCreateEvents.SuspendLayout();
             tpPersonal.SuspendLayout();
@@ -99,9 +108,10 @@
             // 
             // monthCalendar1
             // 
-            monthCalendar1.Location=new Point(18, 18);
+            monthCalendar1.Location=new Point(12, 57);
             monthCalendar1.Name="monthCalendar1";
             monthCalendar1.TabIndex=0;
+            monthCalendar1.DateChanged+=monthCalendar1_DateChanged;
             // 
             // lbTODOlisting
             // 
@@ -117,9 +127,9 @@
             // 
             lbSelectedDayEvents.FormattingEnabled=true;
             lbSelectedDayEvents.ItemHeight=15;
-            lbSelectedDayEvents.Location=new Point(272, 16);
+            lbSelectedDayEvents.Location=new Point(12, 231);
             lbSelectedDayEvents.Name="lbSelectedDayEvents";
-            lbSelectedDayEvents.Size=new Size(227, 244);
+            lbSelectedDayEvents.Size=new Size(227, 199);
             lbSelectedDayEvents.TabIndex=100;
             lbSelectedDayEvents.SelectedIndexChanged+=lbSelectedDayEvents_SelectedIndexChanged;
             // 
@@ -174,7 +184,6 @@
             inImportanceLevel.Size=new Size(59, 23);
             inImportanceLevel.TabIndex=7;
             inImportanceLevel.Visible=false;
-            inImportanceLevel.ValueChanged+=numericUpDown1_ValueChanged;
             // 
             // inItemDescription
             // 
@@ -204,15 +213,16 @@
             tcCreateEvents.Controls.Add(tpPersonal);
             tcCreateEvents.Controls.Add(tpWork);
             tcCreateEvents.Controls.Add(tpSchool);
-            tcCreateEvents.Location=new Point(18, 281);
+            tcCreateEvents.Location=new Point(12, 231);
             tcCreateEvents.Name="tcCreateEvents";
             tcCreateEvents.SelectedIndex=0;
-            tcCreateEvents.Size=new Size(351, 233);
-            tcCreateEvents.TabIndex=10;
+            tcCreateEvents.Size=new Size(227, 286);
+            tcCreateEvents.TabIndex=200;
             tcCreateEvents.Visible=false;
             // 
             // tpPersonal
             // 
+            tpPersonal.Controls.Add(btnPEUpdate);
             tpPersonal.Controls.Add(btnPECancel);
             tpPersonal.Controls.Add(btnPECreate);
             tpPersonal.Controls.Add(inPEDescription);
@@ -226,67 +236,78 @@
             tpPersonal.Location=new Point(4, 24);
             tpPersonal.Name="tpPersonal";
             tpPersonal.Padding=new Padding(3);
-            tpPersonal.Size=new Size(343, 205);
+            tpPersonal.Size=new Size(219, 258);
             tpPersonal.TabIndex=0;
             tpPersonal.Text="Personal";
             tpPersonal.UseVisualStyleBackColor=true;
             // 
+            // btnPEUpdate
+            // 
+            btnPEUpdate.Location=new Point(5, 227);
+            btnPEUpdate.Name="btnPEUpdate";
+            btnPEUpdate.Size=new Size(102, 25);
+            btnPEUpdate.TabIndex=210;
+            btnPEUpdate.Text="Update";
+            btnPEUpdate.UseVisualStyleBackColor=true;
+            btnPEUpdate.Click+=btnPEUpdate_Click;
+            // 
             // btnPECancel
             // 
-            btnPECancel.Location=new Point(172, 176);
+            btnPECancel.Location=new Point(112, 227);
             btnPECancel.Name="btnPECancel";
-            btnPECancel.Size=new Size(165, 25);
-            btnPECancel.TabIndex=109;
+            btnPECancel.Size=new Size(102, 25);
+            btnPECancel.TabIndex=211;
             btnPECancel.Text="Cancel";
             btnPECancel.UseVisualStyleBackColor=true;
             btnPECancel.Click+=btnPECancel_Click;
             // 
             // btnPECreate
             // 
-            btnPECreate.Location=new Point(6, 176);
+            btnPECreate.Location=new Point(5, 227);
             btnPECreate.Name="btnPECreate";
-            btnPECreate.Size=new Size(165, 25);
-            btnPECreate.TabIndex=108;
+            btnPECreate.Size=new Size(102, 25);
+            btnPECreate.TabIndex=209;
             btnPECreate.Text="Create";
             btnPECreate.UseVisualStyleBackColor=true;
             btnPECreate.Click+=btnPECreate_Click;
             // 
             // inPEDescription
             // 
-            inPEDescription.Location=new Point(80, 88);
+            inPEDescription.Location=new Point(5, 109);
             inPEDescription.MaxLength=1000;
             inPEDescription.Multiline=false;
             inPEDescription.Name="inPEDescription";
-            inPEDescription.Size=new Size(255, 85);
-            inPEDescription.TabIndex=107;
+            inPEDescription.Size=new Size(209, 112);
+            inPEDescription.TabIndex=208;
             inPEDescription.Text="";
             // 
             // inPEEndTimeDate
             // 
             inPEEndTimeDate.Format=DateTimePickerFormat.Custom;
-            inPEEndTimeDate.Location=new Point(95, 60);
+            inPEEndTimeDate.Location=new Point(70, 60);
             inPEEndTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inPEEndTimeDate.Name="inPEEndTimeDate";
-            inPEEndTimeDate.Size=new Size(240, 23);
-            inPEEndTimeDate.TabIndex=106;
+            inPEEndTimeDate.Size=new Size(144, 23);
+            inPEEndTimeDate.TabIndex=206;
             // 
             // inPEStartTimeDate
             // 
             inPEStartTimeDate.Format=DateTimePickerFormat.Custom;
-            inPEStartTimeDate.Location=new Point(95, 30);
+            inPEStartTimeDate.Location=new Point(70, 30);
             inPEStartTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inPEStartTimeDate.Name="inPEStartTimeDate";
-            inPEStartTimeDate.Size=new Size(240, 23);
-            inPEStartTimeDate.TabIndex=101;
+            inPEStartTimeDate.Size=new Size(144, 23);
+            inPEStartTimeDate.TabIndex=204;
+            inPEStartTimeDate.ValueChanged+=inPEStartTimeDate_ValueChanged;
             // 
             // inPEName
             // 
-            inPEName.Location=new Point(82, 6);
+            inPEName.Location=new Point(80, 6);
             inPEName.MaxLength=40;
             inPEName.Multiline=false;
             inPEName.Name="inPEName";
-            inPEName.Size=new Size(253, 20);
-            inPEName.TabIndex=105;
+            inPEName.Size=new Size(134, 20);
+            inPEName.TabIndex=202;
             inPEName.Text="";
             // 
             // lblPEDescription
@@ -295,7 +316,7 @@
             lblPEDescription.Location=new Point(5, 91);
             lblPEDescription.Name="lblPEDescription";
             lblPEDescription.Size=new Size(70, 15);
-            lblPEDescription.TabIndex=104;
+            lblPEDescription.TabIndex=207;
             lblPEDescription.Text="Description:";
             // 
             // lblPEEndTime
@@ -303,18 +324,18 @@
             lblPEEndTime.AutoSize=true;
             lblPEEndTime.Location=new Point(5, 64);
             lblPEEndTime.Name="lblPEEndTime";
-            lblPEEndTime.Size=new Size(88, 15);
-            lblPEEndTime.TabIndex=103;
-            lblPEEndTime.Text="End Time/Date:";
+            lblPEEndTime.Size=new Size(59, 15);
+            lblPEEndTime.TabIndex=205;
+            lblPEEndTime.Text="End Time:";
             // 
             // lblPEStartTime
             // 
             lblPEStartTime.AutoSize=true;
             lblPEStartTime.Location=new Point(5, 34);
             lblPEStartTime.Name="lblPEStartTime";
-            lblPEStartTime.Size=new Size(92, 15);
-            lblPEStartTime.TabIndex=102;
-            lblPEStartTime.Text="Start Time/Date:";
+            lblPEStartTime.Size=new Size(63, 15);
+            lblPEStartTime.TabIndex=203;
+            lblPEStartTime.Text="Start Time:";
             // 
             // lblPEName
             // 
@@ -322,11 +343,12 @@
             lblPEName.Location=new Point(5, 8);
             lblPEName.Name="lblPEName";
             lblPEName.Size=new Size(74, 15);
-            lblPEName.TabIndex=101;
+            lblPEName.TabIndex=201;
             lblPEName.Text="Event Name:";
             // 
             // tpWork
             // 
+            tpWork.Controls.Add(btnWEUpdate);
             tpWork.Controls.Add(btnWECancel);
             tpWork.Controls.Add(btnWECreate);
             tpWork.Controls.Add(inWEndTimeDate);
@@ -342,27 +364,37 @@
             tpWork.Location=new Point(4, 24);
             tpWork.Name="tpWork";
             tpWork.Padding=new Padding(3);
-            tpWork.Size=new Size(343, 205);
+            tpWork.Size=new Size(219, 258);
             tpWork.TabIndex=1;
             tpWork.Text="Work";
             tpWork.UseVisualStyleBackColor=true;
             // 
+            // btnWEUpdate
+            // 
+            btnWEUpdate.Location=new Point(5, 227);
+            btnWEUpdate.Name="btnWEUpdate";
+            btnWEUpdate.Size=new Size(102, 25);
+            btnWEUpdate.TabIndex=231;
+            btnWEUpdate.Text="Update";
+            btnWEUpdate.UseVisualStyleBackColor=true;
+            btnWEUpdate.Click+=btnWEUpdate_Click;
+            // 
             // btnWECancel
             // 
-            btnWECancel.Location=new Point(172, 176);
+            btnWECancel.Location=new Point(112, 227);
             btnWECancel.Name="btnWECancel";
-            btnWECancel.Size=new Size(165, 25);
-            btnWECancel.TabIndex=110;
+            btnWECancel.Size=new Size(102, 25);
+            btnWECancel.TabIndex=232;
             btnWECancel.Text="Cancel";
             btnWECancel.UseVisualStyleBackColor=true;
             btnWECancel.Click+=btnWECancel_Click;
             // 
             // btnWECreate
             // 
-            btnWECreate.Location=new Point(6, 176);
+            btnWECreate.Location=new Point(5, 227);
             btnWECreate.Name="btnWECreate";
-            btnWECreate.Size=new Size(165, 25);
-            btnWECreate.TabIndex=109;
+            btnWECreate.Size=new Size(102, 25);
+            btnWECreate.TabIndex=230;
             btnWECreate.Text="Create";
             btnWECreate.UseVisualStyleBackColor=true;
             btnWECreate.Click+=btnWECreate_Click;
@@ -370,20 +402,21 @@
             // inWEndTimeDate
             // 
             inWEndTimeDate.Format=DateTimePickerFormat.Custom;
-            inWEndTimeDate.Location=new Point(95, 60);
+            inWEndTimeDate.Location=new Point(70, 60);
             inWEndTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inWEndTimeDate.Name="inWEndTimeDate";
-            inWEndTimeDate.Size=new Size(240, 23);
-            inWEndTimeDate.TabIndex=108;
+            inWEndTimeDate.Size=new Size(144, 23);
+            inWEndTimeDate.TabIndex=225;
             // 
             // inWStartTimeDate
             // 
             inWStartTimeDate.Format=DateTimePickerFormat.Custom;
-            inWStartTimeDate.Location=new Point(95, 30);
+            inWStartTimeDate.Location=new Point(70, 30);
             inWStartTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inWStartTimeDate.Name="inWStartTimeDate";
-            inWStartTimeDate.Size=new Size(240, 23);
-            inWStartTimeDate.TabIndex=107;
+            inWStartTimeDate.Size=new Size(144, 23);
+            inWStartTimeDate.TabIndex=223;
+            inWStartTimeDate.ValueChanged+=inWStartTimeDate_ValueChanged;
             // 
             // inWWage
             // 
@@ -392,26 +425,26 @@
             inWWage.Location=new Point(56, 115);
             inWWage.Name="inWWage";
             inWWage.Size=new Size(88, 23);
-            inWWage.TabIndex=106;
+            inWWage.TabIndex=229;
             // 
             // inWCompany
             // 
-            inWCompany.Location=new Point(73, 88);
+            inWCompany.Location=new Point(70, 88);
             inWCompany.MaxLength=50;
             inWCompany.Multiline=false;
             inWCompany.Name="inWCompany";
-            inWCompany.Size=new Size(262, 21);
-            inWCompany.TabIndex=105;
+            inWCompany.Size=new Size(144, 21);
+            inWCompany.TabIndex=227;
             inWCompany.Text="";
             // 
             // inWJobName
             // 
-            inWJobName.Location=new Point(73, 6);
+            inWJobName.Location=new Point(70, 6);
             inWJobName.MaxLength=50;
             inWJobName.Multiline=false;
             inWJobName.Name="inWJobName";
-            inWJobName.Size=new Size(262, 20);
-            inWJobName.TabIndex=104;
+            inWJobName.Size=new Size(144, 20);
+            inWJobName.TabIndex=221;
             inWJobName.Text="";
             // 
             // lblWCompany
@@ -420,7 +453,7 @@
             lblWCompany.Location=new Point(5, 91);
             lblWCompany.Name="lblWCompany";
             lblWCompany.Size=new Size(62, 15);
-            lblWCompany.TabIndex=4;
+            lblWCompany.TabIndex=226;
             lblWCompany.Text="Company:";
             // 
             // lblWEndTimeDate
@@ -428,18 +461,18 @@
             lblWEndTimeDate.AutoSize=true;
             lblWEndTimeDate.Location=new Point(5, 64);
             lblWEndTimeDate.Name="lblWEndTimeDate";
-            lblWEndTimeDate.Size=new Size(88, 15);
-            lblWEndTimeDate.TabIndex=3;
-            lblWEndTimeDate.Text="End Time/Date:";
+            lblWEndTimeDate.Size=new Size(59, 15);
+            lblWEndTimeDate.TabIndex=224;
+            lblWEndTimeDate.Text="End Time:";
             // 
             // lblWStartTimeDate
             // 
             lblWStartTimeDate.AutoSize=true;
             lblWStartTimeDate.Location=new Point(5, 34);
             lblWStartTimeDate.Name="lblWStartTimeDate";
-            lblWStartTimeDate.Size=new Size(92, 15);
-            lblWStartTimeDate.TabIndex=2;
-            lblWStartTimeDate.Text="Start Time/Date:";
+            lblWStartTimeDate.Size=new Size(63, 15);
+            lblWStartTimeDate.TabIndex=222;
+            lblWStartTimeDate.Text="Start Time:";
             // 
             // lblWWage
             // 
@@ -447,7 +480,7 @@
             lblWWage.Location=new Point(5, 119);
             lblWWage.Name="lblWWage";
             lblWWage.Size=new Size(49, 15);
-            lblWWage.TabIndex=1;
+            lblWWage.TabIndex=228;
             lblWWage.Text="Wage: $";
             // 
             // lblWName
@@ -456,11 +489,12 @@
             lblWName.Location=new Point(5, 8);
             lblWName.Name="lblWName";
             lblWName.Size=new Size(63, 15);
-            lblWName.TabIndex=0;
+            lblWName.TabIndex=220;
             lblWName.Text="Job Name:";
             // 
             // tpSchool
             // 
+            tpSchool.Controls.Add(btnSEUpdate);
             tpSchool.Controls.Add(inSEFriday);
             tpSchool.Controls.Add(inSEThursday);
             tpSchool.Controls.Add(inSEWednesday);
@@ -481,88 +515,98 @@
             tpSchool.Location=new Point(4, 24);
             tpSchool.Name="tpSchool";
             tpSchool.Padding=new Padding(3);
-            tpSchool.Size=new Size(343, 205);
+            tpSchool.Size=new Size(219, 258);
             tpSchool.TabIndex=2;
             tpSchool.Text="School";
             tpSchool.UseVisualStyleBackColor=true;
             // 
+            // btnSEUpdate
+            // 
+            btnSEUpdate.Location=new Point(5, 227);
+            btnSEUpdate.Name="btnSEUpdate";
+            btnSEUpdate.Size=new Size(102, 25);
+            btnSEUpdate.TabIndex=256;
+            btnSEUpdate.Text="Update";
+            btnSEUpdate.UseVisualStyleBackColor=true;
+            btnSEUpdate.Click+=btnSEUpdate_Click;
+            // 
             // inSEFriday
             // 
             inSEFriday.AutoSize=true;
-            inSEFriday.Location=new Point(87, 127);
+            inSEFriday.Location=new Point(30, 175);
             inSEFriday.Name="inSEFriday";
             inSEFriday.Size=new Size(58, 19);
-            inSEFriday.TabIndex=118;
+            inSEFriday.TabIndex=253;
             inSEFriday.Text="Friday";
             inSEFriday.UseVisualStyleBackColor=true;
             // 
             // inSEThursday
             // 
             inSEThursday.AutoSize=true;
-            inSEThursday.Location=new Point(172, 109);
+            inSEThursday.Location=new Point(119, 155);
             inSEThursday.Name="inSEThursday";
             inSEThursday.Size=new Size(74, 19);
-            inSEThursday.TabIndex=117;
+            inSEThursday.TabIndex=252;
             inSEThursday.Text="Thursday";
             inSEThursday.UseVisualStyleBackColor=true;
             // 
             // inSEWednesday
             // 
             inSEWednesday.AutoSize=true;
-            inSEWednesday.Location=new Point(87, 109);
+            inSEWednesday.Location=new Point(30, 155);
             inSEWednesday.Name="inSEWednesday";
             inSEWednesday.Size=new Size(87, 19);
-            inSEWednesday.TabIndex=116;
+            inSEWednesday.TabIndex=251;
             inSEWednesday.Text="Wednesday";
             inSEWednesday.UseVisualStyleBackColor=true;
             // 
             // inSETuesday
             // 
             inSETuesday.AutoSize=true;
-            inSETuesday.Location=new Point(172, 91);
+            inSETuesday.Location=new Point(119, 135);
             inSETuesday.Name="inSETuesday";
             inSETuesday.Size=new Size(69, 19);
-            inSETuesday.TabIndex=115;
+            inSETuesday.TabIndex=250;
             inSETuesday.Text="Tuesday";
             inSETuesday.UseVisualStyleBackColor=true;
             // 
             // inSEMonday
             // 
             inSEMonday.AutoSize=true;
-            inSEMonday.Location=new Point(87, 91);
+            inSEMonday.Location=new Point(30, 135);
             inSEMonday.Name="inSEMonday";
             inSEMonday.Size=new Size(70, 19);
-            inSEMonday.TabIndex=114;
+            inSEMonday.TabIndex=249;
             inSEMonday.Text="Monday";
             inSEMonday.UseVisualStyleBackColor=true;
             // 
             // inSEOnline
             // 
             inSEOnline.AutoSize=true;
-            inSEOnline.Location=new Point(8, 154);
+            inSEOnline.Location=new Point(7, 199);
             inSEOnline.Name="inSEOnline";
             inSEOnline.Size=new Size(91, 19);
-            inSEOnline.TabIndex=113;
+            inSEOnline.TabIndex=254;
             inSEOnline.Text="Online Class";
             inSEOnline.UseVisualStyleBackColor=true;
             inSEOnline.CheckedChanged+=inSEOnline_CheckedChanged;
             // 
             // btnSECancel
             // 
-            btnSECancel.Location=new Point(172, 176);
+            btnSECancel.Location=new Point(112, 227);
             btnSECancel.Name="btnSECancel";
-            btnSECancel.Size=new Size(165, 25);
-            btnSECancel.TabIndex=112;
+            btnSECancel.Size=new Size(102, 25);
+            btnSECancel.TabIndex=257;
             btnSECancel.Text="Cancel";
             btnSECancel.UseVisualStyleBackColor=true;
             btnSECancel.Click+=btnSECancel_Click;
             // 
             // btnSECreate
             // 
-            btnSECreate.Location=new Point(6, 176);
+            btnSECreate.Location=new Point(5, 227);
             btnSECreate.Name="btnSECreate";
-            btnSECreate.Size=new Size(165, 25);
-            btnSECreate.TabIndex=111;
+            btnSECreate.Size=new Size(102, 25);
+            btnSECreate.TabIndex=255;
             btnSECreate.Text="Create";
             btnSECreate.UseVisualStyleBackColor=true;
             btnSECreate.Click+=btnSECreate_Click;
@@ -570,29 +614,30 @@
             // inSEStartTimeDate
             // 
             inSEStartTimeDate.Format=DateTimePickerFormat.Custom;
-            inSEStartTimeDate.Location=new Point(95, 30);
+            inSEStartTimeDate.Location=new Point(70, 30);
             inSEStartTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inSEStartTimeDate.Name="inSEStartTimeDate";
-            inSEStartTimeDate.Size=new Size(240, 23);
-            inSEStartTimeDate.TabIndex=109;
+            inSEStartTimeDate.Size=new Size(144, 23);
+            inSEStartTimeDate.TabIndex=243;
+            inSEStartTimeDate.ValueChanged+=inSEStartTimeDate_ValueChanged;
             // 
             // inSEEndTimeDate
             // 
             inSEEndTimeDate.Format=DateTimePickerFormat.Custom;
-            inSEEndTimeDate.Location=new Point(95, 60);
+            inSEEndTimeDate.Location=new Point(70, 60);
             inSEEndTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inSEEndTimeDate.Name="inSEEndTimeDate";
-            inSEEndTimeDate.Size=new Size(240, 23);
-            inSEEndTimeDate.TabIndex=108;
+            inSEEndTimeDate.Size=new Size(144, 23);
+            inSEEndTimeDate.TabIndex=245;
             // 
             // inSEClassID
             // 
-            inSEClassID.Location=new Point(258, 6);
+            inSEClassID.Location=new Point(59, 93);
             inSEClassID.MaxLength=50;
             inSEClassID.Multiline=false;
             inSEClassID.Name="inSEClassID";
             inSEClassID.Size=new Size(77, 20);
-            inSEClassID.TabIndex=106;
+            inSEClassID.TabIndex=247;
             inSEClassID.Text="";
             // 
             // inSEClassName
@@ -601,17 +646,17 @@
             inSEClassName.MaxLength=50;
             inSEClassName.Multiline=false;
             inSEClassName.Name="inSEClassName";
-            inSEClassName.Size=new Size(164, 20);
-            inSEClassName.TabIndex=105;
+            inSEClassName.Size=new Size(170, 20);
+            inSEClassName.TabIndex=241;
             inSEClassName.Text="";
             // 
             // lblSEMeetingDays
             // 
             lblSEMeetingDays.AutoSize=true;
-            lblSEMeetingDays.Location=new Point(5, 91);
+            lblSEMeetingDays.Location=new Point(6, 116);
             lblSEMeetingDays.Name="lblSEMeetingDays";
             lblSEMeetingDays.Size=new Size(82, 15);
-            lblSEMeetingDays.TabIndex=6;
+            lblSEMeetingDays.TabIndex=248;
             lblSEMeetingDays.Text="Meeting Days:";
             // 
             // lblSEEndTimeDate
@@ -619,28 +664,27 @@
             lblSEEndTimeDate.AutoSize=true;
             lblSEEndTimeDate.Location=new Point(5, 64);
             lblSEEndTimeDate.Name="lblSEEndTimeDate";
-            lblSEEndTimeDate.Size=new Size(88, 15);
-            lblSEEndTimeDate.TabIndex=4;
-            lblSEEndTimeDate.Text="End Time/Date:";
+            lblSEEndTimeDate.Size=new Size(59, 15);
+            lblSEEndTimeDate.TabIndex=244;
+            lblSEEndTimeDate.Text="End Time:";
             // 
             // lblSEStartTimeDate
             // 
             lblSEStartTimeDate.AutoSize=true;
             lblSEStartTimeDate.Location=new Point(5, 34);
             lblSEStartTimeDate.Name="lblSEStartTimeDate";
-            lblSEStartTimeDate.Size=new Size(92, 15);
-            lblSEStartTimeDate.TabIndex=3;
-            lblSEStartTimeDate.Text="Start Time/Date:";
+            lblSEStartTimeDate.Size=new Size(63, 15);
+            lblSEStartTimeDate.TabIndex=242;
+            lblSEStartTimeDate.Text="Start Time:";
             // 
             // lblSEClassID
             // 
             lblSEClassID.AutoSize=true;
-            lblSEClassID.Location=new Point(208, 8);
+            lblSEClassID.Location=new Point(5, 94);
             lblSEClassID.Name="lblSEClassID";
             lblSEClassID.Size=new Size(48, 15);
-            lblSEClassID.TabIndex=2;
+            lblSEClassID.TabIndex=246;
             lblSEClassID.Text="ClassID:";
-            lblSEClassID.Click+=label1_Click;
             // 
             // lblSEClass
             // 
@@ -648,7 +692,7 @@
             lblSEClass.Location=new Point(5, 8);
             lblSEClass.Name="lblSEClass";
             lblSEClass.Size=new Size(37, 15);
-            lblSEClass.TabIndex=1;
+            lblSEClass.TabIndex=240;
             lblSEClass.Text="Class:";
             // 
             // btnTAdd
@@ -708,9 +752,9 @@
             // btnEDelete
             // 
             btnEDelete.Enabled=false;
-            btnEDelete.Location=new Point(258, 281);
+            btnEDelete.Location=new Point(12, 494);
             btnEDelete.Name="btnEDelete";
-            btnEDelete.Size=new Size(176, 23);
+            btnEDelete.Size=new Size(227, 23);
             btnEDelete.TabIndex=103;
             btnEDelete.Text="Delete";
             btnEDelete.UseVisualStyleBackColor=true;
@@ -719,9 +763,9 @@
             // btnEEdit
             // 
             btnEEdit.Enabled=false;
-            btnEEdit.Location=new Point(258, 252);
+            btnEEdit.Location=new Point(12, 465);
             btnEEdit.Name="btnEEdit";
-            btnEEdit.Size=new Size(176, 23);
+            btnEEdit.Size=new Size(227, 23);
             btnEEdit.TabIndex=102;
             btnEEdit.Text="Edit";
             btnEEdit.UseVisualStyleBackColor=true;
@@ -729,19 +773,66 @@
             // 
             // btnEAdd
             // 
-            btnEAdd.Location=new Point(258, 225);
+            btnEAdd.Location=new Point(12, 436);
             btnEAdd.Name="btnEAdd";
-            btnEAdd.Size=new Size(176, 23);
+            btnEAdd.Size=new Size(227, 23);
             btnEAdd.TabIndex=101;
             btnEAdd.Text="Add";
             btnEAdd.UseVisualStyleBackColor=true;
             btnEAdd.Click+=btnEAdd_Click;
+            // 
+            // timer1
+            // 
+            timer1.Enabled=true;
+            timer1.Interval=500;
+            timer1.Tick+=timer1_Tick;
+            // 
+            // lblMainLabel
+            // 
+            lblMainLabel.AutoSize=true;
+            lblMainLabel.Font=new Font("Share Tech Mono", 26.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lblMainLabel.Location=new Point(12, 12);
+            lblMainLabel.Name="lblMainLabel";
+            lblMainLabel.Size=new Size(257, 39);
+            lblMainLabel.TabIndex=104;
+            lblMainLabel.Text="lblMainLabel";
+            // 
+            // lblTime
+            // 
+            lblTime.AutoSize=true;
+            lblTime.Location=new Point(245, 57);
+            lblTime.Name="lblTime";
+            lblTime.Size=new Size(34, 15);
+            lblTime.TabIndex=105;
+            lblTime.Text="12:00";
+            // 
+            // pbTodoProgress
+            // 
+            pbTodoProgress.Location=new Point(506, 494);
+            pbTodoProgress.MarqueeAnimationSpeed=10;
+            pbTodoProgress.Name="pbTodoProgress";
+            pbTodoProgress.Size=new Size(175, 23);
+            pbTodoProgress.Step=1;
+            pbTodoProgress.TabIndex=300;
+            // 
+            // lblTodoPB
+            // 
+            lblTodoPB.AutoSize=true;
+            lblTodoPB.Location=new Point(544, 469);
+            lblTodoPB.Name="lblTodoPB";
+            lblTodoPB.Size=new Size(105, 15);
+            lblTodoPB.TabIndex=301;
+            lblTodoPB.Text="Todo List Progress:";
             // 
             // Form1
             // 
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
             ClientSize=new Size(693, 529);
+            Controls.Add(lblTodoPB);
+            Controls.Add(pbTodoProgress);
+            Controls.Add(lblTime);
+            Controls.Add(lblMainLabel);
             Controls.Add(btnEDelete);
             Controls.Add(btnEEdit);
             Controls.Add(btnEAdd);
@@ -839,5 +930,13 @@
         private CheckBox inSEWednesday;
         private CheckBox inSETuesday;
         private CheckBox inSEMonday;
+        private Button btnPEUpdate;
+        private Button btnWEUpdate;
+        private Button btnSEUpdate;
+        private System.Windows.Forms.Timer timer1;
+        private Label lblMainLabel;
+        private Label lblTime;
+        private ProgressBar pbTodoProgress;
+        private Label lblTodoPB;
     }
 }
