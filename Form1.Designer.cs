@@ -808,8 +808,8 @@
             // 
             // pbTodoProgress
             // 
+            pbTodoProgress.ForeColor=SystemColors.WindowText;
             pbTodoProgress.Location=new Point(506, 494);
-            pbTodoProgress.MarqueeAnimationSpeed=10;
             pbTodoProgress.Name="pbTodoProgress";
             pbTodoProgress.Size=new Size(175, 23);
             pbTodoProgress.Step=1;

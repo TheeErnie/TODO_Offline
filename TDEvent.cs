@@ -6,8 +6,9 @@
         DateTime EndTime { get; set; }
         string Name { get; set; }
         string Description { get; set; }
+        string ToShortString { get; }
     }
-    public class TDEvent : IEvent
+    public abstract class TDEvent : IEvent
     {
         //attributes
         private DateTime _start_time;
@@ -54,6 +55,13 @@
             set { _name = value; }
         }
         public string Description { get; set; }
+        public string ToShortString
+        {
+            get
+            {
+                return this.ShortString();
+            }
+        }
 
         //methods
 
@@ -73,5 +81,8 @@
             //userinput
             _completed = ui;
         }
+
+        public abstract string ToString();
+        public abstract string ShortString();
     }
 }

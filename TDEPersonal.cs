@@ -27,5 +27,16 @@ namespace TODO
 
 
         //methods
+        public override string ToString()
+        {
+            string retval = this.StartTime.ToString("h:mm") + " - " + this.EndTime.ToString("h:mm tt 'on' MMM dd");
+            retval += "   " + this.Name + " : " + this.Description;
+            return retval;
+        }
+
+        public override string ShortString()
+        {
+            return this.StartTime.ToString("h:mm tt") + " - " + this.Name;
+        }
     }
 }

@@ -38,6 +38,16 @@
 
 
         //methods
+        public override string ToString()
+        {
+            string retval = this.StartTime.ToString("h:mm") + " - " + this.EndTime.ToString("h:mm tt 'on' MMM dd");
+            retval += "   " + this.Name + " @ " + this.Company + " at $" + Wage.ToString("0.00") + "/hr";
+            return retval;
+        }
+        public override string ShortString()
+        {
+            return this.StartTime.ToString("h:mm tt") + " - " + this.Name + " @ " + this.Company;
+        }
         public decimal GetPay()
         {
             return _wage * Math.Round((decimal)(EndTime - StartTime).TotalHours, 2);

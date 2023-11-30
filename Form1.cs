@@ -208,9 +208,7 @@ namespace projoffline
             List<IEvent> eventsToday = eventList.Where(e => e.StartTime.Date.Day == userSelectedDate.Day).ToList();
             foreach (IEvent e in eventsToday)
             {
-                string tmpstr = e.StartTime.ToString("hh:mm tt");
-                tmpstr += " - " + e.Name;
-                lbSelectedDayEvents.Items.Add(tmpstr);
+                lbSelectedDayEvents.Items.Add(e.ToShortString);
             }
         }
         private void clearAllEventInputs()
@@ -240,7 +238,7 @@ namespace projoffline
             DateTime tmpdt = DateTime.Now;
             lblMainLabel.Text = tmpdt.ToString("dddd: MMM d, yyyy");
             lblTime.Text = tmpdt.ToString("t");
-            timer1.Interval = 55000;
+            timer1.Interval = 10000;
         }
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
@@ -302,8 +300,8 @@ namespace projoffline
             tcCreateEvents.Show();
 
             string tmpename = lbSelectedDayEvents.GetItemText(lbSelectedDayEvents.SelectedItem);
-            IEvent tmpe = eventList.Where(x => x.StartTime.ToString("hh:mm tt").Substring(0, 6) == tmpename.Substring(0, 6) && x.StartTime.Date.Day == userSelectedDate.Day).FirstOrDefault();
-            eindex = eventList.FindIndex(x => x.StartTime.ToString("hh:mm tt").Substring(0, 6) == tmpename.Substring(0, 6) && x.StartTime.Date.Day == userSelectedDate.Day);
+            IEvent tmpe = eventList.Where(x => x.ToShortString == tmpename && x.StartTime.Date.Day == userSelectedDate.Day).FirstOrDefault();
+            eindex = eventList.FindIndex(x => x.ToShortString == tmpename && x.StartTime.Date.Day == userSelectedDate.Day);
             if (tmpe is TDEPersonal)
             {
                 hideAllEventButtons();                      //disallow input to be submitted in other tabs
@@ -359,7 +357,7 @@ namespace projoffline
         private void btnEDelete_Click(object sender, EventArgs e)
         {
             string tmpdel = lbSelectedDayEvents.GetItemText(lbSelectedDayEvents.SelectedItem);
-            IEvent tmpev = eventList.Where(x => x.StartTime.ToString("hh:mm tt").Substring(0, 6) == tmpdel.Substring(0, 6) && x.StartTime.Date.Day == userSelectedDate.Day).FirstOrDefault();
+            IEvent tmpev = eventList.Where(x => x.ToShortString == tmpdel && x.StartTime.Date.Day == userSelectedDate.Day).FirstOrDefault();
             eventList.Remove(tmpev);
             updateEL();
             btnEEdit.Enabled = false;

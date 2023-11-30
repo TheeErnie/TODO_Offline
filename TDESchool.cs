@@ -73,6 +73,27 @@
         }
 
         //methods
+        public override string ToString()
+        {
+            string retval = this.StartTime.ToString("h:mm") + " - " + this.EndTime.ToString("h:mm tt 'on' MMM dd");
+            retval += "   " + this.Name + " (" + this.CID + ") ";
+            if (_online) retval += "Online";
+            else
+            {
+                retval += "[ ";
+                if (_meeting_days[0]) retval += "M ";
+                if (_meeting_days[1]) retval += "Tu ";
+                if (_meeting_days[2]) retval += "W ";
+                if (_meeting_days[3]) retval += "Th ";
+                if (_meeting_days[4]) retval += "F ";
+                retval += "]";
+            }
+            return retval;
+        }
+        public override string ShortString()
+        {
+            return this.StartTime.ToString("h:mm tt") + " - " + this.CID;
+        }
         public double HrsInClassPerWeek()
         {
             double numdays = 0;
