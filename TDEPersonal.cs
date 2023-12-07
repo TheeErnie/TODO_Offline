@@ -37,6 +37,6 @@ namespace TODO
         public override string ShortString()
         {
             return this.StartTime.ToString("h:mm tt") + " - " + this.Name;
-        }
+        }        
     }
 }

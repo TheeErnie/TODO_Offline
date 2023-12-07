@@ -665,7 +665,44 @@ namespace projoffline
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             //save data here
-            
+            string tmp;
+            string form1path = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);//change THIS!!!!
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(form1path, "todosave.csv")))
+            {
+                foreach(var td in todoList)
+                {
+                    tmp = (td.Name + "#" + td.Description + "#" + td.ImportanceLevel);
+                    outputFile.WriteLine(tmp);
+                }
+            }
+            foreach(var eve in eventList)
+            {
+                if(eve is TDEPersonal)
+                {
+                    var tmpe = (TDEPersonal)eve;
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(form1path, "epersonalsave.csv"), true))
+                    {
+                        tmp = tmpe.Name + "#" + tmpe.Description + "#" + tmpe.StartTime + "#" + tmpe.EndTime;
+                        outputFile.WriteLine(tmp);
+                    }
+                } else if (eve is TDEWork)
+                {
+                    var tmpe = (TDEWork)eve;
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(form1path, "eworksave.csv"), true))
+                    {
+                        tmp = tmpe.Name + "#" + tmpe.Company + "#" + tmpe.Wage + "#" + tmpe.StartTime + "#" + tmpe.EndTime;
+                        outputFile.WriteLine(tmp);
+                    }
+                } else
+                {
+                    var tmpe = (TDESchool)eve;
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(form1path, "eschool.csv"), true))
+                    {
+                        tmp = tmpe.Name + "#" + tmpe.CID + "#" + tmpe.IsOnline + "#" + tmpe.EncodedMeetingDays + "#" + tmpe.StartTime + "#" + tmpe.EndTime;
+                        outputFile.WriteLine(tmp);
+                    }
+                }
+            }            
         }
     }
 }
