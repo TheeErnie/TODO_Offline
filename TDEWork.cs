@@ -48,9 +48,9 @@
         {
             return this.StartTime.ToString("h:mm tt") + " - " + this.Name + " @ " + this.Company;
         }
-        public decimal GetPay()
+        public double GetPay()
         {
-            return _wage * Math.Round((decimal)(EndTime - StartTime).TotalHours, 2);
+            return (double)_wage * Math.Round((EndTime - StartTime).TotalHours, 2);
         }
         public double ShiftLength()
         {

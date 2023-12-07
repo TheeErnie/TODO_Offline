@@ -1,5 +1,6 @@
 using System.Diagnostics.Eventing.Reader;
 using System.Security.Cryptography.Xml;
+using System.Windows.Forms;
 using TODO;
 
 namespace projoffline
@@ -14,6 +15,8 @@ namespace projoffline
         private DateTime userSelectedDate;
         private double totalTodos = 0;
         private double finishedTodos = 0;
+        private double hrsInClass = 0;
+        private double moneyMade = 0;
         public Form1()
         {
             InitializeComponent();
@@ -22,9 +25,22 @@ namespace projoffline
             inPEStartTimeDate.Format = inPEEndTimeDate.Format = inWStartTimeDate.Format = inWEndTimeDate.Format = inSEStartTimeDate.Format = inSEEndTimeDate.Format = DateTimePickerFormat.Custom;
             inPEStartTimeDate.CustomFormat = inPEEndTimeDate.CustomFormat = inWStartTimeDate.CustomFormat = inWEndTimeDate.CustomFormat = inSEStartTimeDate.CustomFormat = inSEEndTimeDate.CustomFormat = "h:mm tt 'on' MMM dd";
             userSelectedDate = DateTime.Now;
+            ttEventTip.SetToolTip(lbSelectedDayEvents, null);
+            lblHoursInClass.Hide();
+            lblMoneyMade.Hide();
+            displayClearTodo();
+            displayClearDayEvents();
+
+            this.FormClosing += Form1_FormClosing;
         }
 
         #region TODO_List
+
+        private void displayClearTodo()
+        {
+            lbTODOlisting.Items.Clear();
+            lbTODOlisting.Items.Add("You're all caught up!");
+        }
 
         #region Button_Functionalities
         private void btnTAdd_Click(object sender, EventArgs e)
@@ -61,6 +77,16 @@ namespace projoffline
         }
         private void button1_Click(object sender, EventArgs e) //function for create td item, I had troubles with renaming it and decided not to get hung up on it for now
         {
+            bool duplicate = false;
+            foreach (var td in todoList)
+            {
+                if (inItemName.Text == td.Name) duplicate = true;
+            }
+            if (duplicate)
+            {
+                MessageBox.Show("NOTICE: You cannot have duplicate names for todo items", "ERROR!");
+                return;
+            }
             if (inItemName.Text != "")
             {
                 int tmpImpLvl = Decimal.ToInt32(inImportanceLevel.Value);
@@ -77,6 +103,16 @@ namespace projoffline
         }
         private void btnUpdateTodo_Click(object sender, EventArgs e)
         {
+            bool duplicate = false;
+            foreach (var td in todoList)
+            {
+                if (inItemName.Text == td.Name) duplicate = true;
+            }
+            if (duplicate)
+            {
+                MessageBox.Show("NOTICE: You cannot have duplicate names for todo items", "ERROR!");
+                return;
+            }
             if (inItemName.Text != "")
             {
                 todoList[tdindex].Name = inItemName.Text;
@@ -137,10 +173,15 @@ namespace projoffline
             btnTAdd.Show();
             btnTEdit.Show();
             btnTFinish.Show();
-            lblTodoPB.Show();
-            pbTodoProgress.Show();
+            showInfoPanel();
         }
-
+        private void hideTDCtrlPanel()
+        {
+            btnTAdd.Hide();
+            btnTEdit.Hide();
+            btnTFinish.Hide();
+            hideInfoPanel();
+        }
         private void hideTDCreate()
         {
             lblItemName.Hide();
@@ -153,7 +194,6 @@ namespace projoffline
             btnCreateTodo.Hide();
             btnCancelCreateTodo.Hide();
         }
-
         private void hideTDEdit()
         {
             lblItemName.Hide();
@@ -167,14 +207,6 @@ namespace projoffline
             btnCancelCreateTodo.Hide();
         }
 
-        private void hideTDCtrlPanel()
-        {
-            btnTAdd.Hide();
-            btnTEdit.Hide();
-            btnTFinish.Hide();
-            lblTodoPB.Hide();
-            pbTodoProgress.Hide();
-        }
         #endregion
         private void updateTDL()    //updates todo list after todoList has been edited
         {
@@ -186,6 +218,7 @@ namespace projoffline
             {
                 lbTODOlisting.Items.Add(td.Name);
             }
+            if (todoList.Count == 0) displayClearTodo();
         }
 
         private void lbTODOlisting_SelectedIndexChanged(object sender, EventArgs e)
@@ -201,6 +234,15 @@ namespace projoffline
 
         #region Events
         #region Cleanup around crud
+        private void displayClearDayEvents()
+        {
+            if (eventList.Where(e => e.StartTime.Date == userSelectedDate.Date).ToList().Count() == 0)
+            {
+                lbSelectedDayEvents.Items.Clear();
+                if (userSelectedDate.Date == DateTime.Now.Date) lbSelectedDayEvents.Items.Add("Nothing to do today!");
+                else lbSelectedDayEvents.Items.Add("Nothing to do on " + userSelectedDate.Date.ToString("d") + "!");
+            }
+        }
         private void updateEL()
         {
             eventList.Sort((e1, e2) => e1.StartTime.CompareTo(e2.StartTime));
@@ -210,6 +252,7 @@ namespace projoffline
             {
                 lbSelectedDayEvents.Items.Add(e.ToShortString);
             }
+            if (lbSelectedDayEvents.Items.Count == 0) displayClearDayEvents();
         }
         private void clearAllEventInputs()
         {
@@ -232,20 +275,46 @@ namespace projoffline
             btnEEdit.Enabled = btnEDelete.Enabled = false;
             showECtrlPanel();
         }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             DateTime tmpdt = DateTime.Now;
-            lblMainLabel.Text = tmpdt.ToString("dddd: MMM d, yyyy");
-            lblTime.Text = tmpdt.ToString("t");
+            lblMainLabel.Text = tmpdt.ToString("h:mm dddd");
             timer1.Interval = 10000;
         }
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
             userSelectedDate = monthCalendar1.SelectionStart;
             updateEL();
+            updateHrsInClass();
+            updateMoneyMade();
+        }
+        private bool checkTimeOrder()
+        {
+            if (inPEStartTimeDate.Value > inPEEndTimeDate.Value)
+            {
+                MessageBox.Show("NOTICE: The ending time must be later than the starting time.", "ERROR!");
+                return true;
+            }
+            return false;
+        }
+        private bool checkDuplicates(int inputType) //inputType 0 -> Personal, 1 -> Work, 2 -> School
+        {
+            if (eventList.Count(e => e.ToShortString == lbSelectedDayEvents.GetItemText(lbSelectedDayEvents.SelectedItem)) == 1) return false;
+            bool duplicate = false;
+            foreach (var eve in eventList)
+            {
+                if (inputType == 0 && inPEStartTimeDate.Value == eve.StartTime) duplicate = true;
+                if (inputType == 1 &&  inWStartTimeDate.Value == eve.StartTime) duplicate = true;
+                if (inputType == 2 && inSEStartTimeDate.Value == eve.StartTime) duplicate = true;
+            }
+            if (duplicate)
+            {
+                MessageBox.Show("NOTICE: Only one event can be scheduled to start at a given time.\nPlease enter a new Start Time.", "ERROR!");
+            }
+            return duplicate;
         }
 
+        #endregion
         #region Show/Hide Displays
         private void hideAllEventButtons()
         {
@@ -369,14 +438,16 @@ namespace projoffline
             {
                 btnEEdit.Enabled = true;
                 btnEDelete.Enabled = true;
+                IEvent tmpev = eventList.Where(x => x.ToShortString == lbSelectedDayEvents.GetItemText(lbSelectedDayEvents.SelectedItem)).FirstOrDefault();
+                ttEventTip.SetToolTip(lbSelectedDayEvents, tmpev.ToLongString);
             }
         }
         #endregion
-        #endregion
-
         #region Personal
         private void btnPECreate_Click(object sender, EventArgs e)
         {
+            if (checkTimeOrder()) return;
+            if (checkDuplicates(0)) return;
             if (inPEName.Text != string.Empty)
             {
                 TDEPersonal tmppersonal = new TDEPersonal(inPEDescription.Text, inPEStartTimeDate.Value, inPEEndTimeDate.Value, inPEName.Text);
@@ -387,6 +458,8 @@ namespace projoffline
         }
         private void btnPEUpdate_Click(object sender, EventArgs e)
         {
+            if (checkTimeOrder()) return;
+            if (checkDuplicates(0)) return;
             if (inPEName.Text != string.Empty)                           //check for empty name
             {
                 eventList[eindex].Name = inPEName.Text;                  //fill values
@@ -411,16 +484,21 @@ namespace projoffline
         #region Work
         private void btnWECreate_Click(object sender, EventArgs e)
         {
+            if (checkTimeOrder()) return;
+            if (checkDuplicates(1)) return;
             if (inWJobName.Text != string.Empty)
             {
                 TDEWork tmpwork = new TDEWork(inWCompany.Text, inWWage.Value, inWStartTimeDate.Value, inWEndTimeDate.Value, inWJobName.Text);
                 eventList.Add(tmpwork);
                 updateEL();
+                updateMoneyMade();
                 cancelEventInput();
             }
         }
         private void btnWEUpdate_Click(object sender, EventArgs e)
         {
+            if (checkTimeOrder()) return;
+            if (checkDuplicates(1)) return;
             if (inWJobName.Text != "")
             {
                 TDEWork tmpw = (TDEWork)eventList[eindex];
@@ -432,6 +510,7 @@ namespace projoffline
                 eventList.RemoveAt(eindex);
                 eventList.Add(tmpw);
                 updateEL();
+                updateMoneyMade();
             }
             cancelEventInput();
             btnEEdit.Enabled = false;
@@ -449,6 +528,8 @@ namespace projoffline
         #region School
         private void btnSECreate_Click(object sender, EventArgs e)
         {
+            if (checkTimeOrder()) return;
+            if (checkDuplicates(2)) return;
             if (inSEClassName.Text != "")
             {
                 int meetingDays = 0;
@@ -463,11 +544,14 @@ namespace projoffline
                 TDESchool tmpschool = new TDESchool(inSEClassID.Text, inSEOnline.Checked, meetingDays, inSEStartTimeDate.Value, inSEEndTimeDate.Value, inSEClassName.Text);
                 eventList.Add(tmpschool);
                 updateEL();
+                updateHrsInClass();
                 cancelEventInput();
             }
         }
         private void btnSEUpdate_Click(object sender, EventArgs e)
         {
+            if (checkTimeOrder()) return;
+            if (checkDuplicates(2)) return;
             if (inSEClassName.Text != "")
             {
                 TDESchool tmps = (TDESchool)eventList[eindex];
@@ -486,6 +570,7 @@ namespace projoffline
 
                 tmps.EncodedMeetingDays = meetingdays;
                 updateEL();
+                updateHrsInClass();
             }
             cancelEventInput();
             btnEEdit.Enabled = false;
@@ -515,5 +600,72 @@ namespace projoffline
         #endregion
 
         #endregion
+
+        #region Info Panel
+        private void hideInfoPanel()
+        {
+            lblTodoPB.Hide();
+            pbTodoProgress.Hide();
+            lblHoursInClass.Hide();
+            lblMoneyMade.Hide();
+        }
+        private void showInfoPanel()
+        {
+            lblTodoPB.Show();
+            pbTodoProgress.Show();
+            if (hrsInClass > 0) lblHoursInClass.Show();
+            if (moneyMade > 0) lblMoneyMade.Show();
+        }
+        private void updateHrsInClass()
+        {
+            List<TDESchool> classes = new List<TDESchool>();
+            foreach (var eve in eventList)
+            {
+                if (eve is TDESchool) classes.Add((TDESchool)eve);
+            }
+            classes = classes.Where(e => e.StartTime < userSelectedDate.AddDays(7-(double)userSelectedDate.DayOfWeek)).ToList();
+            classes = classes.Where(e => e.StartTime > userSelectedDate.AddDays(-(double)userSelectedDate.DayOfWeek)).ToList();
+            for (int i = 0; i < classes.Count; i++)
+            {
+                TDESchool tmp = classes[i];
+                for (int j = i + 1; j < classes.Count; j++)
+                {
+                    if (tmp.CID == classes[j].CID && tmp.EncodedMeetingDays == classes[j].EncodedMeetingDays)
+                    {
+                        classes.Remove(classes[j]);
+                        j--;
+                    }
+                }
+            }
+            hrsInClass = classes.Sum(e => e.HrsInClassPerWeek());
+            lblHoursInClass.Text = "Time in class: " + hrsInClass.ToString("0.0") + " hrs";
+            if (hrsInClass == 0) lblHoursInClass.Hide();
+            else lblHoursInClass.Show();
+        }
+        private void updateMoneyMade()
+        {
+            List<TDEWork> shifts = new List<TDEWork>();
+            foreach (var eve in eventList)
+            {
+                if (eve is TDEWork) shifts.Add((TDEWork)eve);
+            }
+            shifts = shifts.Where(e => e.StartTime < userSelectedDate.AddDays(7-(double)userSelectedDate.DayOfWeek)).ToList();
+            shifts = shifts.Where(e => e.StartTime > userSelectedDate.AddDays(-(double)userSelectedDate.DayOfWeek)).ToList();
+            moneyMade = shifts.Sum(s => (double)s.GetPay());
+            lblMoneyMade.Text = "Cash made this week:\n   est. $" + moneyMade.ToString("0.00");
+            if (moneyMade == 0) lblMoneyMade.Hide();
+            else lblMoneyMade.Show();
+        }
+        #endregion
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //load data in this function
+        }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //save data here
+            
+        }
     }
 }

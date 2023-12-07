@@ -7,6 +7,7 @@
         string Name { get; set; }
         string Description { get; set; }
         string ToShortString { get; }
+        string ToLongString { get; }
     }
     public abstract class TDEvent : IEvent
     {
@@ -62,18 +63,12 @@
                 return this.ShortString();
             }
         }
+        public string ToLongString
+        {
+            get { return this.ToString(); }
+        }
 
         //methods
-
-        public void UpdateAvailability()
-        {
-
-        }
-
-        public void NotifyUser()
-        {
-
-        }
 
         public void VerifyEventCompletion()
         {

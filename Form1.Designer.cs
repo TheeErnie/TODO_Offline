@@ -95,9 +95,12 @@
             btnEAdd=new Button();
             timer1=new System.Windows.Forms.Timer(components);
             lblMainLabel=new Label();
-            lblTime=new Label();
             pbTodoProgress=new ProgressBar();
             lblTodoPB=new Label();
+            ttEventTip=new ToolTip(components);
+            lblHoursInClass=new Label();
+            lblMoneyMade=new Label();
+            lblTodo=new Label();
             ((System.ComponentModel.ISupportInitialize)inImportanceLevel).BeginInit();
             tcCreateEvents.SuspendLayout();
             tpPersonal.SuspendLayout();
@@ -108,37 +111,40 @@
             // 
             // monthCalendar1
             // 
-            monthCalendar1.Location=new Point(12, 57);
+            monthCalendar1.Location=new Point(12, 58);
             monthCalendar1.Name="monthCalendar1";
             monthCalendar1.TabIndex=0;
             monthCalendar1.DateChanged+=monthCalendar1_DateChanged;
             // 
             // lbTODOlisting
             // 
+            lbTODOlisting.Font=new Font("Share Tech Mono", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
             lbTODOlisting.FormattingEnabled=true;
-            lbTODOlisting.ItemHeight=15;
-            lbTODOlisting.Location=new Point(505, 12);
+            lbTODOlisting.ItemHeight=14;
+            lbTODOlisting.Location=new Point(261, 58);
             lbTODOlisting.Name="lbTODOlisting";
-            lbTODOlisting.Size=new Size(176, 289);
+            lbTODOlisting.Size=new Size(176, 242);
             lbTODOlisting.TabIndex=3;
             lbTODOlisting.SelectedIndexChanged+=lbTODOlisting_SelectedIndexChanged;
             // 
             // lbSelectedDayEvents
             // 
+            lbSelectedDayEvents.Font=new Font("Share Tech Mono", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
             lbSelectedDayEvents.FormattingEnabled=true;
-            lbSelectedDayEvents.ItemHeight=15;
+            lbSelectedDayEvents.ItemHeight=14;
             lbSelectedDayEvents.Location=new Point(12, 231);
             lbSelectedDayEvents.Name="lbSelectedDayEvents";
-            lbSelectedDayEvents.Size=new Size(227, 199);
+            lbSelectedDayEvents.Size=new Size(227, 186);
             lbSelectedDayEvents.TabIndex=100;
             lbSelectedDayEvents.SelectedIndexChanged+=lbSelectedDayEvents_SelectedIndexChanged;
             // 
             // lblItemName
             // 
             lblItemName.AutoSize=true;
-            lblItemName.Location=new Point(505, 309);
+            lblItemName.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            lblItemName.Location=new Point(261, 309);
             lblItemName.Name="lblItemName";
-            lblItemName.Size=new Size(69, 15);
+            lblItemName.Size=new Size(67, 13);
             lblItemName.TabIndex=4;
             lblItemName.Text="Item Name:";
             lblItemName.Visible=false;
@@ -146,9 +152,12 @@
             // lblItemDescription
             // 
             lblItemDescription.AutoSize=true;
-            lblItemDescription.Location=new Point(505, 361);
+            lblItemDescription.BackColor=Color.Transparent;
+            lblItemDescription.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            lblItemDescription.ForeColor=Color.Gainsboro;
+            lblItemDescription.Location=new Point(261, 361);
             lblItemDescription.Name="lblItemDescription";
-            lblItemDescription.Size=new Size(97, 15);
+            lblItemDescription.Size=new Size(109, 13);
             lblItemDescription.TabIndex=8;
             lblItemDescription.Text="Item Description:";
             lblItemDescription.Visible=false;
@@ -156,16 +165,18 @@
             // lblImportanceLevel
             // 
             lblImportanceLevel.AutoSize=true;
-            lblImportanceLevel.Location=new Point(505, 336);
+            lblImportanceLevel.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            lblImportanceLevel.Location=new Point(261, 336);
             lblImportanceLevel.Name="lblImportanceLevel";
-            lblImportanceLevel.Size=new Size(101, 15);
+            lblImportanceLevel.Size=new Size(109, 13);
             lblImportanceLevel.TabIndex=6;
             lblImportanceLevel.Text="Importance Level:";
             lblImportanceLevel.Visible=false;
             // 
             // inItemName
             // 
-            inItemName.Location=new Point(580, 306);
+            inItemName.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            inItemName.Location=new Point(336, 306);
             inItemName.MaxLength=40;
             inItemName.Name="inItemName";
             inItemName.ScrollBars=RichTextBoxScrollBars.None;
@@ -178,16 +189,18 @@
             // 
             // inImportanceLevel
             // 
-            inImportanceLevel.Location=new Point(622, 334);
+            inImportanceLevel.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            inImportanceLevel.Location=new Point(378, 334);
             inImportanceLevel.Maximum=new decimal(new int[] { 2, 0, 0, 0 });
             inImportanceLevel.Name="inImportanceLevel";
-            inImportanceLevel.Size=new Size(59, 23);
+            inImportanceLevel.Size=new Size(59, 20);
             inImportanceLevel.TabIndex=7;
             inImportanceLevel.Visible=false;
             // 
             // inItemDescription
             // 
-            inItemDescription.Location=new Point(505, 379);
+            inItemDescription.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            inItemDescription.Location=new Point(261, 379);
             inItemDescription.MaxLength=500;
             inItemDescription.Name="inItemDescription";
             inItemDescription.ScrollBars=RichTextBoxScrollBars.None;
@@ -199,7 +212,8 @@
             // 
             // btnCreateTodo
             // 
-            btnCreateTodo.Location=new Point(505, 465);
+            btnCreateTodo.Font=new Font("Share Tech Mono", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
+            btnCreateTodo.Location=new Point(261, 465);
             btnCreateTodo.Name="btnCreateTodo";
             btnCreateTodo.Size=new Size(176, 23);
             btnCreateTodo.TabIndex=10;
@@ -213,6 +227,7 @@
             tcCreateEvents.Controls.Add(tpPersonal);
             tcCreateEvents.Controls.Add(tpWork);
             tcCreateEvents.Controls.Add(tpSchool);
+            tcCreateEvents.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
             tcCreateEvents.Location=new Point(12, 231);
             tcCreateEvents.Name="tcCreateEvents";
             tcCreateEvents.SelectedIndex=0;
@@ -233,10 +248,10 @@
             tpPersonal.Controls.Add(lblPEEndTime);
             tpPersonal.Controls.Add(lblPEStartTime);
             tpPersonal.Controls.Add(lblPEName);
-            tpPersonal.Location=new Point(4, 24);
+            tpPersonal.Location=new Point(4, 22);
             tpPersonal.Name="tpPersonal";
             tpPersonal.Padding=new Padding(3);
-            tpPersonal.Size=new Size(219, 258);
+            tpPersonal.Size=new Size(219, 260);
             tpPersonal.TabIndex=0;
             tpPersonal.Text="Personal";
             tpPersonal.UseVisualStyleBackColor=true;
@@ -287,7 +302,7 @@
             inPEEndTimeDate.Location=new Point(70, 60);
             inPEEndTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inPEEndTimeDate.Name="inPEEndTimeDate";
-            inPEEndTimeDate.Size=new Size(144, 23);
+            inPEEndTimeDate.Size=new Size(144, 20);
             inPEEndTimeDate.TabIndex=206;
             // 
             // inPEStartTimeDate
@@ -296,7 +311,7 @@
             inPEStartTimeDate.Location=new Point(70, 30);
             inPEStartTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inPEStartTimeDate.Name="inPEStartTimeDate";
-            inPEStartTimeDate.Size=new Size(144, 23);
+            inPEStartTimeDate.Size=new Size(144, 20);
             inPEStartTimeDate.TabIndex=204;
             inPEStartTimeDate.ValueChanged+=inPEStartTimeDate_ValueChanged;
             // 
@@ -315,7 +330,7 @@
             lblPEDescription.AutoSize=true;
             lblPEDescription.Location=new Point(5, 91);
             lblPEDescription.Name="lblPEDescription";
-            lblPEDescription.Size=new Size(70, 15);
+            lblPEDescription.Size=new Size(79, 13);
             lblPEDescription.TabIndex=207;
             lblPEDescription.Text="Description:";
             // 
@@ -324,7 +339,7 @@
             lblPEEndTime.AutoSize=true;
             lblPEEndTime.Location=new Point(5, 64);
             lblPEEndTime.Name="lblPEEndTime";
-            lblPEEndTime.Size=new Size(59, 15);
+            lblPEEndTime.Size=new Size(61, 13);
             lblPEEndTime.TabIndex=205;
             lblPEEndTime.Text="End Time:";
             // 
@@ -333,7 +348,7 @@
             lblPEStartTime.AutoSize=true;
             lblPEStartTime.Location=new Point(5, 34);
             lblPEStartTime.Name="lblPEStartTime";
-            lblPEStartTime.Size=new Size(63, 15);
+            lblPEStartTime.Size=new Size(73, 13);
             lblPEStartTime.TabIndex=203;
             lblPEStartTime.Text="Start Time:";
             // 
@@ -342,7 +357,7 @@
             lblPEName.AutoSize=true;
             lblPEName.Location=new Point(5, 8);
             lblPEName.Name="lblPEName";
-            lblPEName.Size=new Size(74, 15);
+            lblPEName.Size=new Size(73, 13);
             lblPEName.TabIndex=201;
             lblPEName.Text="Event Name:";
             // 
@@ -361,10 +376,10 @@
             tpWork.Controls.Add(lblWStartTimeDate);
             tpWork.Controls.Add(lblWWage);
             tpWork.Controls.Add(lblWName);
-            tpWork.Location=new Point(4, 24);
+            tpWork.Location=new Point(4, 22);
             tpWork.Name="tpWork";
             tpWork.Padding=new Padding(3);
-            tpWork.Size=new Size(219, 258);
+            tpWork.Size=new Size(219, 260);
             tpWork.TabIndex=1;
             tpWork.Text="Work";
             tpWork.UseVisualStyleBackColor=true;
@@ -405,7 +420,7 @@
             inWEndTimeDate.Location=new Point(70, 60);
             inWEndTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inWEndTimeDate.Name="inWEndTimeDate";
-            inWEndTimeDate.Size=new Size(144, 23);
+            inWEndTimeDate.Size=new Size(144, 20);
             inWEndTimeDate.TabIndex=225;
             // 
             // inWStartTimeDate
@@ -414,7 +429,7 @@
             inWStartTimeDate.Location=new Point(70, 30);
             inWStartTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inWStartTimeDate.Name="inWStartTimeDate";
-            inWStartTimeDate.Size=new Size(144, 23);
+            inWStartTimeDate.Size=new Size(144, 20);
             inWStartTimeDate.TabIndex=223;
             inWStartTimeDate.ValueChanged+=inWStartTimeDate_ValueChanged;
             // 
@@ -424,7 +439,7 @@
             inWWage.Increment=new decimal(new int[] { 1, 0, 0, 131072 });
             inWWage.Location=new Point(56, 115);
             inWWage.Name="inWWage";
-            inWWage.Size=new Size(88, 23);
+            inWWage.Size=new Size(88, 20);
             inWWage.TabIndex=229;
             // 
             // inWCompany
@@ -452,7 +467,7 @@
             lblWCompany.AutoSize=true;
             lblWCompany.Location=new Point(5, 91);
             lblWCompany.Name="lblWCompany";
-            lblWCompany.Size=new Size(62, 15);
+            lblWCompany.Size=new Size(55, 13);
             lblWCompany.TabIndex=226;
             lblWCompany.Text="Company:";
             // 
@@ -461,7 +476,7 @@
             lblWEndTimeDate.AutoSize=true;
             lblWEndTimeDate.Location=new Point(5, 64);
             lblWEndTimeDate.Name="lblWEndTimeDate";
-            lblWEndTimeDate.Size=new Size(59, 15);
+            lblWEndTimeDate.Size=new Size(61, 13);
             lblWEndTimeDate.TabIndex=224;
             lblWEndTimeDate.Text="End Time:";
             // 
@@ -470,7 +485,7 @@
             lblWStartTimeDate.AutoSize=true;
             lblWStartTimeDate.Location=new Point(5, 34);
             lblWStartTimeDate.Name="lblWStartTimeDate";
-            lblWStartTimeDate.Size=new Size(63, 15);
+            lblWStartTimeDate.Size=new Size(73, 13);
             lblWStartTimeDate.TabIndex=222;
             lblWStartTimeDate.Text="Start Time:";
             // 
@@ -479,7 +494,7 @@
             lblWWage.AutoSize=true;
             lblWWage.Location=new Point(5, 119);
             lblWWage.Name="lblWWage";
-            lblWWage.Size=new Size(49, 15);
+            lblWWage.Size=new Size(49, 13);
             lblWWage.TabIndex=228;
             lblWWage.Text="Wage: $";
             // 
@@ -488,7 +503,7 @@
             lblWName.AutoSize=true;
             lblWName.Location=new Point(5, 8);
             lblWName.Name="lblWName";
-            lblWName.Size=new Size(63, 15);
+            lblWName.Size=new Size(61, 13);
             lblWName.TabIndex=220;
             lblWName.Text="Job Name:";
             // 
@@ -512,10 +527,10 @@
             tpSchool.Controls.Add(lblSEStartTimeDate);
             tpSchool.Controls.Add(lblSEClassID);
             tpSchool.Controls.Add(lblSEClass);
-            tpSchool.Location=new Point(4, 24);
+            tpSchool.Location=new Point(4, 22);
             tpSchool.Name="tpSchool";
             tpSchool.Padding=new Padding(3);
-            tpSchool.Size=new Size(219, 258);
+            tpSchool.Size=new Size(219, 260);
             tpSchool.TabIndex=2;
             tpSchool.Text="School";
             tpSchool.UseVisualStyleBackColor=true;
@@ -535,7 +550,7 @@
             inSEFriday.AutoSize=true;
             inSEFriday.Location=new Point(30, 175);
             inSEFriday.Name="inSEFriday";
-            inSEFriday.Size=new Size(58, 19);
+            inSEFriday.Size=new Size(62, 17);
             inSEFriday.TabIndex=253;
             inSEFriday.Text="Friday";
             inSEFriday.UseVisualStyleBackColor=true;
@@ -545,7 +560,7 @@
             inSEThursday.AutoSize=true;
             inSEThursday.Location=new Point(119, 155);
             inSEThursday.Name="inSEThursday";
-            inSEThursday.Size=new Size(74, 19);
+            inSEThursday.Size=new Size(74, 17);
             inSEThursday.TabIndex=252;
             inSEThursday.Text="Thursday";
             inSEThursday.UseVisualStyleBackColor=true;
@@ -555,7 +570,7 @@
             inSEWednesday.AutoSize=true;
             inSEWednesday.Location=new Point(30, 155);
             inSEWednesday.Name="inSEWednesday";
-            inSEWednesday.Size=new Size(87, 19);
+            inSEWednesday.Size=new Size(80, 17);
             inSEWednesday.TabIndex=251;
             inSEWednesday.Text="Wednesday";
             inSEWednesday.UseVisualStyleBackColor=true;
@@ -565,7 +580,7 @@
             inSETuesday.AutoSize=true;
             inSETuesday.Location=new Point(119, 135);
             inSETuesday.Name="inSETuesday";
-            inSETuesday.Size=new Size(69, 19);
+            inSETuesday.Size=new Size(68, 17);
             inSETuesday.TabIndex=250;
             inSETuesday.Text="Tuesday";
             inSETuesday.UseVisualStyleBackColor=true;
@@ -575,7 +590,7 @@
             inSEMonday.AutoSize=true;
             inSEMonday.Location=new Point(30, 135);
             inSEMonday.Name="inSEMonday";
-            inSEMonday.Size=new Size(70, 19);
+            inSEMonday.Size=new Size(62, 17);
             inSEMonday.TabIndex=249;
             inSEMonday.Text="Monday";
             inSEMonday.UseVisualStyleBackColor=true;
@@ -585,7 +600,7 @@
             inSEOnline.AutoSize=true;
             inSEOnline.Location=new Point(7, 199);
             inSEOnline.Name="inSEOnline";
-            inSEOnline.Size=new Size(91, 19);
+            inSEOnline.Size=new Size(98, 17);
             inSEOnline.TabIndex=254;
             inSEOnline.Text="Online Class";
             inSEOnline.UseVisualStyleBackColor=true;
@@ -617,7 +632,7 @@
             inSEStartTimeDate.Location=new Point(70, 30);
             inSEStartTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inSEStartTimeDate.Name="inSEStartTimeDate";
-            inSEStartTimeDate.Size=new Size(144, 23);
+            inSEStartTimeDate.Size=new Size(144, 20);
             inSEStartTimeDate.TabIndex=243;
             inSEStartTimeDate.ValueChanged+=inSEStartTimeDate_ValueChanged;
             // 
@@ -627,7 +642,7 @@
             inSEEndTimeDate.Location=new Point(70, 60);
             inSEEndTimeDate.MaxDate=new DateTime(2200, 12, 31, 0, 0, 0, 0);
             inSEEndTimeDate.Name="inSEEndTimeDate";
-            inSEEndTimeDate.Size=new Size(144, 23);
+            inSEEndTimeDate.Size=new Size(144, 20);
             inSEEndTimeDate.TabIndex=245;
             // 
             // inSEClassID
@@ -655,7 +670,7 @@
             lblSEMeetingDays.AutoSize=true;
             lblSEMeetingDays.Location=new Point(6, 116);
             lblSEMeetingDays.Name="lblSEMeetingDays";
-            lblSEMeetingDays.Size=new Size(82, 15);
+            lblSEMeetingDays.Size=new Size(85, 13);
             lblSEMeetingDays.TabIndex=248;
             lblSEMeetingDays.Text="Meeting Days:";
             // 
@@ -664,7 +679,7 @@
             lblSEEndTimeDate.AutoSize=true;
             lblSEEndTimeDate.Location=new Point(5, 64);
             lblSEEndTimeDate.Name="lblSEEndTimeDate";
-            lblSEEndTimeDate.Size=new Size(59, 15);
+            lblSEEndTimeDate.Size=new Size(61, 13);
             lblSEEndTimeDate.TabIndex=244;
             lblSEEndTimeDate.Text="End Time:";
             // 
@@ -673,7 +688,7 @@
             lblSEStartTimeDate.AutoSize=true;
             lblSEStartTimeDate.Location=new Point(5, 34);
             lblSEStartTimeDate.Name="lblSEStartTimeDate";
-            lblSEStartTimeDate.Size=new Size(63, 15);
+            lblSEStartTimeDate.Size=new Size(73, 13);
             lblSEStartTimeDate.TabIndex=242;
             lblSEStartTimeDate.Text="Start Time:";
             // 
@@ -682,7 +697,7 @@
             lblSEClassID.AutoSize=true;
             lblSEClassID.Location=new Point(5, 94);
             lblSEClassID.Name="lblSEClassID";
-            lblSEClassID.Size=new Size(48, 15);
+            lblSEClassID.Size=new Size(55, 13);
             lblSEClassID.TabIndex=246;
             lblSEClassID.Text="ClassID:";
             // 
@@ -691,13 +706,14 @@
             lblSEClass.AutoSize=true;
             lblSEClass.Location=new Point(5, 8);
             lblSEClass.Name="lblSEClass";
-            lblSEClass.Size=new Size(37, 15);
+            lblSEClass.Size=new Size(43, 13);
             lblSEClass.TabIndex=240;
             lblSEClass.Text="Class:";
             // 
             // btnTAdd
             // 
-            btnTAdd.Location=new Point(505, 307);
+            btnTAdd.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            btnTAdd.Location=new Point(261, 307);
             btnTAdd.Name="btnTAdd";
             btnTAdd.Size=new Size(176, 23);
             btnTAdd.TabIndex=1;
@@ -708,7 +724,8 @@
             // btnTEdit
             // 
             btnTEdit.Enabled=false;
-            btnTEdit.Location=new Point(505, 334);
+            btnTEdit.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            btnTEdit.Location=new Point(261, 334);
             btnTEdit.Name="btnTEdit";
             btnTEdit.Size=new Size(176, 23);
             btnTEdit.TabIndex=2;
@@ -719,7 +736,8 @@
             // btnTFinish
             // 
             btnTFinish.Enabled=false;
-            btnTFinish.Location=new Point(505, 363);
+            btnTFinish.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            btnTFinish.Location=new Point(261, 361);
             btnTFinish.Name="btnTFinish";
             btnTFinish.Size=new Size(176, 23);
             btnTFinish.TabIndex=3;
@@ -729,7 +747,8 @@
             // 
             // btnCancelCreateTodo
             // 
-            btnCancelCreateTodo.Location=new Point(505, 494);
+            btnCancelCreateTodo.Font=new Font("Share Tech Mono", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
+            btnCancelCreateTodo.Location=new Point(261, 494);
             btnCancelCreateTodo.Name="btnCancelCreateTodo";
             btnCancelCreateTodo.Size=new Size(176, 23);
             btnCancelCreateTodo.TabIndex=12;
@@ -740,7 +759,8 @@
             // 
             // btnUpdateTodo
             // 
-            btnUpdateTodo.Location=new Point(505, 465);
+            btnUpdateTodo.Font=new Font("Share Tech Mono", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
+            btnUpdateTodo.Location=new Point(261, 465);
             btnUpdateTodo.Name="btnUpdateTodo";
             btnUpdateTodo.Size=new Size(176, 23);
             btnUpdateTodo.TabIndex=11;
@@ -752,6 +772,7 @@
             // btnEDelete
             // 
             btnEDelete.Enabled=false;
+            btnEDelete.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
             btnEDelete.Location=new Point(12, 494);
             btnEDelete.Name="btnEDelete";
             btnEDelete.Size=new Size(227, 23);
@@ -763,6 +784,7 @@
             // btnEEdit
             // 
             btnEEdit.Enabled=false;
+            btnEEdit.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
             btnEEdit.Location=new Point(12, 465);
             btnEEdit.Name="btnEEdit";
             btnEEdit.Size=new Size(227, 23);
@@ -773,6 +795,7 @@
             // 
             // btnEAdd
             // 
+            btnEAdd.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
             btnEAdd.Location=new Point(12, 436);
             btnEAdd.Name="btnEAdd";
             btnEAdd.Size=new Size(227, 23);
@@ -790,26 +813,19 @@
             // lblMainLabel
             // 
             lblMainLabel.AutoSize=true;
-            lblMainLabel.Font=new Font("Share Tech Mono", 26.25F, FontStyle.Bold, GraphicsUnit.Point);
-            lblMainLabel.Location=new Point(12, 12);
+            lblMainLabel.BackColor=Color.Transparent;
+            lblMainLabel.Font=new Font("Share Tech Mono", 20.2499981F, FontStyle.Bold, GraphicsUnit.Point);
+            lblMainLabel.ForeColor=Color.Gainsboro;
+            lblMainLabel.Location=new Point(6, 16);
             lblMainLabel.Name="lblMainLabel";
-            lblMainLabel.Size=new Size(257, 39);
+            lblMainLabel.Size=new Size(206, 31);
             lblMainLabel.TabIndex=104;
             lblMainLabel.Text="lblMainLabel";
-            // 
-            // lblTime
-            // 
-            lblTime.AutoSize=true;
-            lblTime.Location=new Point(245, 57);
-            lblTime.Name="lblTime";
-            lblTime.Size=new Size(34, 15);
-            lblTime.TabIndex=105;
-            lblTime.Text="12:00";
             // 
             // pbTodoProgress
             // 
             pbTodoProgress.ForeColor=SystemColors.WindowText;
-            pbTodoProgress.Location=new Point(506, 494);
+            pbTodoProgress.Location=new Point(261, 420);
             pbTodoProgress.Name="pbTodoProgress";
             pbTodoProgress.Size=new Size(175, 23);
             pbTodoProgress.Step=1;
@@ -818,20 +834,63 @@
             // lblTodoPB
             // 
             lblTodoPB.AutoSize=true;
-            lblTodoPB.Location=new Point(544, 469);
+            lblTodoPB.BackColor=Color.Transparent;
+            lblTodoPB.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTodoPB.ForeColor=Color.Gainsboro;
+            lblTodoPB.Location=new Point(299, 395);
             lblTodoPB.Name="lblTodoPB";
-            lblTodoPB.Size=new Size(105, 15);
+            lblTodoPB.Size=new Size(121, 13);
             lblTodoPB.TabIndex=301;
             lblTodoPB.Text="Todo List Progress:";
+            // 
+            // lblHoursInClass
+            // 
+            lblHoursInClass.AutoSize=true;
+            lblHoursInClass.BackColor=Color.Transparent;
+            lblHoursInClass.Font=new Font("Share Tech Mono", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
+            lblHoursInClass.ForeColor=Color.Gainsboro;
+            lblHoursInClass.Location=new Point(263, 454);
+            lblHoursInClass.Name="lblHoursInClass";
+            lblHoursInClass.Size=new Size(97, 14);
+            lblHoursInClass.TabIndex=302;
+            lblHoursInClass.Text="Hours In Class:";
+            // 
+            // lblMoneyMade
+            // 
+            lblMoneyMade.AutoSize=true;
+            lblMoneyMade.BackColor=Color.Transparent;
+            lblMoneyMade.Font=new Font("Share Tech Mono", 8.999999F, FontStyle.Regular, GraphicsUnit.Point);
+            lblMoneyMade.ForeColor=Color.Gainsboro;
+            lblMoneyMade.Location=new Point(263, 473);
+            lblMoneyMade.Name="lblMoneyMade";
+            lblMoneyMade.Size=new Size(133, 14);
+            lblMoneyMade.TabIndex=303;
+            lblMoneyMade.Text="Money Made This Week:";
+            // 
+            // lblTodo
+            // 
+            lblTodo.AutoSize=true;
+            lblTodo.BackColor=Color.Transparent;
+            lblTodo.Font=new Font("Share Tech Mono", 17.9999981F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTodo.ForeColor=Color.Gainsboro;
+            lblTodo.Location=new Point(293, 18);
+            lblTodo.Name="lblTodo";
+            lblTodo.Size=new Size(90, 27);
+            lblTodo.TabIndex=304;
+            lblTodo.Text="//TODO";
             // 
             // Form1
             // 
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
-            ClientSize=new Size(693, 529);
+            BackColor=Color.Goldenrod;
+            BackgroundImage=Properties.Resources._6985749;
+            ClientSize=new Size(453, 529);
+            Controls.Add(lblTodo);
+            Controls.Add(lblMoneyMade);
+            Controls.Add(lblHoursInClass);
             Controls.Add(lblTodoPB);
             Controls.Add(pbTodoProgress);
-            Controls.Add(lblTime);
             Controls.Add(lblMainLabel);
             Controls.Add(btnEDelete);
             Controls.Add(btnEEdit);
@@ -852,8 +911,10 @@
             Controls.Add(lbSelectedDayEvents);
             Controls.Add(lbTODOlisting);
             Controls.Add(monthCalendar1);
+            FormBorderStyle=FormBorderStyle.FixedToolWindow;
             Name="Form1";
             Text="ToDo";
+            Load+=Form1_Load;
             ((System.ComponentModel.ISupportInitialize)inImportanceLevel).EndInit();
             tcCreateEvents.ResumeLayout(false);
             tpPersonal.ResumeLayout(false);
@@ -935,8 +996,11 @@
         private Button btnSEUpdate;
         private System.Windows.Forms.Timer timer1;
         private Label lblMainLabel;
-        private Label lblTime;
         private ProgressBar pbTodoProgress;
         private Label lblTodoPB;
+        private ToolTip ttEventTip;
+        private Label lblHoursInClass;
+        private Label lblMoneyMade;
+        private Label lblTodo;
     }
 }
