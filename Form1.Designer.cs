@@ -141,7 +141,9 @@
             // lblItemName
             // 
             lblItemName.AutoSize=true;
+            lblItemName.BackColor=Color.Transparent;
             lblItemName.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            lblItemName.ForeColor=Color.Gainsboro;
             lblItemName.Location=new Point(261, 309);
             lblItemName.Name="lblItemName";
             lblItemName.Size=new Size(67, 13);
@@ -165,7 +167,9 @@
             // lblImportanceLevel
             // 
             lblImportanceLevel.AutoSize=true;
+            lblImportanceLevel.BackColor=Color.Transparent;
             lblImportanceLevel.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
+            lblImportanceLevel.ForeColor=Color.Gainsboro;
             lblImportanceLevel.Location=new Point(261, 336);
             lblImportanceLevel.Name="lblImportanceLevel";
             lblImportanceLevel.Size=new Size(109, 13);
@@ -837,7 +841,7 @@
             lblTodoPB.BackColor=Color.Transparent;
             lblTodoPB.Font=new Font("Share Tech Mono", 8.249999F, FontStyle.Regular, GraphicsUnit.Point);
             lblTodoPB.ForeColor=Color.Gainsboro;
-            lblTodoPB.Location=new Point(299, 395);
+            lblTodoPB.Location=new Point(275, 395);
             lblTodoPB.Name="lblTodoPB";
             lblTodoPB.Size=new Size(121, 13);
             lblTodoPB.TabIndex=301;
@@ -885,7 +889,7 @@
             AutoScaleMode=AutoScaleMode.Font;
             BackColor=Color.Goldenrod;
             BackgroundImage=Properties.Resources._6985749;
-            ClientSize=new Size(453, 529);
+            ClientSize=new Size(451, 529);
             Controls.Add(lblTodo);
             Controls.Add(lblMoneyMade);
             Controls.Add(lblHoursInClass);

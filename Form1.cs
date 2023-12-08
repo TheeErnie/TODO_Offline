@@ -210,7 +210,7 @@ namespace projoffline
         #endregion
         private void updateTDL()    //updates todo list after todoList has been edited
         {
-            pbTodoProgress.Value = (int)((finishedTodos/totalTodos)*100);
+            if(totalTodos > 0)pbTodoProgress.Value = (int)((finishedTodos/totalTodos)*100);
             lblTodoPB.Text = "Todo List Progress: (" + finishedTodos.ToString() + "/" + totalTodos.ToString() + ")";
             todoList.Sort((td1, td2) => td2.ImportanceLevel.CompareTo(td1.ImportanceLevel));
             lbTODOlisting.Items.Clear();
@@ -658,51 +658,110 @@ namespace projoffline
         }
         #endregion
 
+        #region Save/Load
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //load data in this function
+            string tmp;
+            string form1path = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            string pathchecker = Path.Combine(form1path, "todosave.csv");
+            StreamReader reader;
+            if (File.Exists(pathchecker))       //load todo list items
+            {
+                reader = new StreamReader(pathchecker);
+                tmp = reader.ReadLine();
+                while (tmp != null)
+                {
+                    string[] record = tmp.Split("#");
+                    int implvl;
+                    if (record[2] == "High") implvl = 2;
+                    else if (record[2] == "Medium") implvl = 1;
+                    else implvl = 0;
+                    TDTodo newtd = new TDTodo(record[0], record[1], (TDImportanceLevel)Enum.ToObject(typeof(TDImportanceLevel), implvl));
+                    todoList.Add(newtd);
+                    tmp = reader.ReadLine();
+                }
+                totalTodos = todoList.Count;
+                updateTDL();
+                reader.Close();
+            }           
+            pathchecker = Path.Combine(form1path, "eventssave.csv");
+            if (File.Exists(pathchecker))       //load personal events
+            {
+                reader = new StreamReader (pathchecker);
+                tmp = reader.ReadLine();
+                while(tmp != null)
+                {
+                    string[] record = tmp.Split("#");
+                    if (record[0] == "p")
+                    {
+                        TDEPersonal tmpp = new TDEPersonal(record[2], DateTime.Parse(record[3]), DateTime.Parse(record[4]), record[1]);
+                        eventList.Add(tmpp);
+                    } 
+                    else if (record[0] == "w")
+                    {
+                        TDEWork tmpw = new TDEWork(record[2], Decimal.Parse(record[3]), DateTime.Parse(record[4]), DateTime.Parse(record[5]), record[1]);
+                        eventList.Add(tmpw);
+                    }
+                    else
+                    {
+                        TDESchool tmps = new TDESchool(record[2], bool.Parse(record[3]), Int32.Parse(record[4]), DateTime.Parse(record[5]), DateTime.Parse(record[6]), record[1]);
+                        eventList.Add(tmps);
+                    }
+                    tmp = reader.ReadLine();
+                }
+                updateEL();
+                reader.Close();
+            }
+
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             //save data here
             string tmp;
-            string form1path = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);//change THIS!!!!
+            string form1path = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             using (StreamWriter outputFile = new StreamWriter(Path.Combine(form1path, "todosave.csv")))
             {
-                foreach(var td in todoList)
+                foreach (var td in todoList)
                 {
                     tmp = (td.Name + "#" + td.Description + "#" + td.ImportanceLevel);
                     outputFile.WriteLine(tmp);
                 }
             }
-            foreach(var eve in eventList)
+            form1path = Path.Combine(form1path, "eventssave.csv");
+            using (var fs = new FileStream(form1path, FileMode.Truncate)) { }
+            foreach (var eve in eventList)
             {
-                if(eve is TDEPersonal)
+                if (eve is TDEPersonal)
                 {
                     var tmpe = (TDEPersonal)eve;
-                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(form1path, "epersonalsave.csv"), true))
+                    using (StreamWriter outputFile = new StreamWriter(form1path, true))
                     {
-                        tmp = tmpe.Name + "#" + tmpe.Description + "#" + tmpe.StartTime + "#" + tmpe.EndTime;
-                        outputFile.WriteLine(tmp);
-                    }
-                } else if (eve is TDEWork)
-                {
-                    var tmpe = (TDEWork)eve;
-                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(form1path, "eworksave.csv"), true))
-                    {
-                        tmp = tmpe.Name + "#" + tmpe.Company + "#" + tmpe.Wage + "#" + tmpe.StartTime + "#" + tmpe.EndTime;
-                        outputFile.WriteLine(tmp);
-                    }
-                } else
-                {
-                    var tmpe = (TDESchool)eve;
-                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(form1path, "eschool.csv"), true))
-                    {
-                        tmp = tmpe.Name + "#" + tmpe.CID + "#" + tmpe.IsOnline + "#" + tmpe.EncodedMeetingDays + "#" + tmpe.StartTime + "#" + tmpe.EndTime;
+                        tmp = "p#" + tmpe.Name + "#" + tmpe.Description + "#" + tmpe.StartTime + "#" + tmpe.EndTime;
                         outputFile.WriteLine(tmp);
                     }
                 }
-            }            
+                else if (eve is TDEWork)
+                {
+                    var tmpe = (TDEWork)eve;
+                    using (StreamWriter outputFile = new StreamWriter(form1path, true))
+                    {
+                        tmp = "w#" + tmpe.Name + "#" + tmpe.Company + "#" + tmpe.Wage + "#" + tmpe.StartTime + "#" + tmpe.EndTime;
+                        outputFile.WriteLine(tmp);
+                    }
+                }
+                else
+                {
+                    var tmpe = (TDESchool)eve;
+                    using (StreamWriter outputFile = new StreamWriter(form1path, true))
+                    {
+                        tmp = "s#" + tmpe.Name + "#" + tmpe.CID + "#" + tmpe.IsOnline + "#" + tmpe.EncodedMeetingDays + "#" + tmpe.StartTime + "#" + tmpe.EndTime;
+                        outputFile.WriteLine(tmp);
+                    }
+                }
+            }
         }
+        #endregion
     }
 }
