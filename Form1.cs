@@ -106,7 +106,7 @@ namespace projoffline
             bool duplicate = false;
             foreach (var td in todoList)
             {
-                if (inItemName.Text == td.Name) duplicate = true;
+                if (inItemName.Text == td.Name && td != todoList[tdindex]) duplicate = true;
             }
             if (duplicate)
             {
@@ -440,7 +440,9 @@ namespace projoffline
                 btnEDelete.Enabled = true;
                 IEvent tmpev = eventList.Where(x => x.ToShortString == lbSelectedDayEvents.GetItemText(lbSelectedDayEvents.SelectedItem)).FirstOrDefault();
                 ttEventTip.SetToolTip(lbSelectedDayEvents, tmpev.ToLongString);
+                btnEEdit.Enabled = DateTime.Now.Date <= userSelectedDate.Date;
             }
+
         }
         #endregion
         #region Personal
@@ -462,10 +464,12 @@ namespace projoffline
             if (checkDuplicates(0)) return;
             if (inPEName.Text != string.Empty)                           //check for empty name
             {
-                eventList[eindex].Name = inPEName.Text;                  //fill values
-                eventList[eindex].StartTime = inPEStartTimeDate.Value;
-                eventList[eindex].EndTime = inPEEndTimeDate.Value;
-                eventList[eindex].Description = inPEDescription.Text;
+                TDEPersonal tmpp = (TDEPersonal)eventList[eindex];
+                tmpp.Name = inPEName.Text;                  //fill values
+                tmpp.StartTime = inPEStartTimeDate.Value;
+                tmpp.EndTime = inPEEndTimeDate.Value;
+                tmpp.Description = inPEDescription.Text;
+                eventList[eindex] = tmpp;
                 updateEL();
             }
             cancelEventInput();
@@ -730,6 +734,8 @@ namespace projoffline
                 }
             }
             form1path = Path.Combine(form1path, "eventssave.csv");
+            var vs = File.CreateText(form1path);
+            vs.Close();
             using (var fs = new FileStream(form1path, FileMode.Truncate)) { }
             foreach (var eve in eventList)
             {

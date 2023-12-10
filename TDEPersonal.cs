@@ -5,7 +5,7 @@ namespace TODO
     public class TDEPersonal : TDEvent
     {
         //attributes
-        private string _description;
+        private string _description; 
 
         //constructors
         public TDEPersonal() : base() 

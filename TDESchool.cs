@@ -11,7 +11,7 @@
         private bool _online;
         private bool[] _meeting_days;
 
-        //constructors
+        //constructors 
         public TDESchool() : base()
         {
             _course_id = "ABC-123";

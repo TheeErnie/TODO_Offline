@@ -50,9 +50,9 @@
         }
         public double GetPay()
         {
-            return (double)_wage * Math.Round((EndTime - StartTime).TotalHours, 2);
+            return (double)_wage * ShiftLength();
         }
-        public double ShiftLength()
+        private double ShiftLength()
         {
             return Math.Round((double)(EndTime - StartTime).TotalHours,2);
         }
